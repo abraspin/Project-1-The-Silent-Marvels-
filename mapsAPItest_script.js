@@ -24,3 +24,9 @@ $(".modal").on("click", function() {
     event.preventDefault;
     $(".modal").removeClass("is-active");
 });
+
+/* TODO:
+    - add the code to select the user input in the modal
+        - will probably need some if statements because it could either be zip only or address
+        - if user inputs address will then also need to format properly for google query url (see line #8)
+*/
