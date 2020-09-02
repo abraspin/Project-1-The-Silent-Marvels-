@@ -4,11 +4,10 @@
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <!-- Bootstrap CSS -->
-    <link rel="stylesheet" 
-          href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-          integrity="sha384-JcKb8q3iqJ61gNV9KGb8thSsNjpSL0n8PARn9HuZOnIxN0hoP+VmmDGMN5t9UJ0Z" 
-          crossorigin="anonymous">
+    <!-- Bulma CSS -->
+    <link rel="stylesheet"
+          href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.9.0/css/bulma.min.css"
+          integrity="sha512-ADrqa2PY1TZtb/MoLZIZu/Z/LlPaWQeDMBV73EMwjGam43/JJ5fqW38Rq8LJOVGCDfrJeOMS3Q/wRUVzW5DkjQ==" crossorigin="anonymous" />
     <!-- Additional Stylesheet -->
     <!-- <link rel="stylesheet" href="./style.css"> -->
     <!-- FontAwesome CDN -->
@@ -24,12 +23,50 @@
 <body>
     <h1>Project 1 Test Code Page</h1>
 
+    <!-- Map Embed API - src setting dynamically from JavaScript -->
     <iframe id="embed-map"
         width="450"
         height="250"
         frameborder="0" style="border:0"
         allowfullscreen>
     </iframe>
+
+    <!-- Modal for input of either user address or zipcode -->
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <!-- Any other Bulma elements you want -->
+            <div class="columns">
+                <div class="column">
+                    <p style="color: white;">To search for bars near you, please enter in a zipcode,</p>
+                    <br>
+                    <input class="input" type="text" placeholder="ZIP">
+                    <br>
+                    <br>
+                    <p style="color: white;">or address.</p>
+                    <br>
+                    <input class="input" type="text" placeholder="Address">
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <input class="input" type="text" placeholder="City">
+                </div>
+                <div class="column">
+                    <input class="input" type="text" placeholder="State">
+                </div>
+                <div class="column">
+                    <input class="input" type="text" placeholder="ZIP">
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <button class="button">Submit</button>
+                </div>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"
@@ -39,6 +76,6 @@
             integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8shuf57BaghqFfPlYxofvL8/KUEfYiJOMMV+rV"
             crossorigin="anonymous"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-    <script src="./p1test_script.js"></script>
+    <script src="./mapsAPItest_script.js"></script>
 </body>
 </html>
