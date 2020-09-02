@@ -7,6 +7,20 @@ var apiKey = "AIzaSyBXaAKr4axxaUBPZXJD-cKQF9qtHVrzXe0";
     - near+ZIPCODE is one option but could also be an actual physical address
         - ex. near+123+Example+Street,Austin,TX+78701
 */
-var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=bars+near+ZIPCODE`; 
+var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=bars+near+78626`; 
 var embedMap = $("#embed-map");
 embedMap.attr("src", queryURL);
+
+/* Toggle modal on by adding class is-active
+TODO:
+    - would just have to add this wherever in the code makes sense for it to pop up
+        - either at the beginning
+        - or once their search is complete
+*/
+$(".modal").addClass("is-active");
+
+// Event listener on the modal to close the modal (the button is not doing anything currently)
+$(".modal").on("click", function() {
+    event.preventDefault;
+    $(".modal").removeClass("is-active");
+});
