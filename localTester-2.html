@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <h1> Open the console! </h1>
+
+    <button id="gin"> Gin </button>
+    <button id="vodka"> Vodka </button>
+    <button id="triple_sec"> triple sec </button>
+
+    <!-- jQuery library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+
+    <script>
+
+        //// variable declarations
+        //our upgraded Patreon API key
+        advancedAPIKey = "9973533"
+
+        //dummy tester array
+        // ingredientArray = ["Gin", "triple_sec", "lemon_juice"];
+        ingredientToSearch = "vodka"
+
+
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+        // array containing ID's of all recipes containing searchTerm ("gin")
+        // var cocktailIDArray = getCocktailIDs(ingredientToSearch);
+        // console.log(getCocktailIDs(ingredientToSearch))
+
+        //run the getRepcipe function on each element in that array
+        // cocktailIDArray.forEach(getCocktailRecipesFromID)
+
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        $("#gin").on("click", function (event) {
+            getCocktailIDs("gin")
+        })
+
+        $("#vodka").on("click", function (event) {
+            getCocktailIDs("vodka")
+        })
+
+
+
+        //////////////////////// this function returns an array of ID's, each of which represents a cocktail containing the searched ingredient.
+        function getCocktailIDs(ingredientToSearch) {
+            // build the query url
+            // queryURL = `https://www.thecocktaildb.com/api/json/v2/${advancedAPIKey}/filter.php?i=${ingredientToSearch}`
+            // queryURL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?i=${ingredientToSearch}`
+            queryURL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientToSearch}`
+            // // Performing our AJAX GET request
+            $.ajax({
+                url: queryURL,
+                method: "GET",
+            })
+                // After the data comes back from the API
+                .then(function (response) {
+                    console.log("getCocktailIDs -> response", response)
+                    // This array will hold the ID's of all the cocktails that contain this ingredient
+                    // var thisIngredientCocktailsIDArray = JSON.parse(localStorage.getItem(potentialCocktailsIDArray)) || []
+                    var thisIngredientCocktailsIDArray = []
+                    var potentialCocktailsIDArray = JSON.parse(localStorage.getItem(potentialCocktailsIDArray)) || []
+                    // console.log(localStorage.getItem(potentialCocktailsIDArray))
+
+                    // We are expecting a large array of cocktails, each of which contains the searched ingredient as one of its ingredients
+                    var returnedDrinksArray = response.drinks
+                    // loop through this array 
+                    for (var i = 0; i < returnedDrinksArray.length; i++) {
+                        // Now for each drink in this array, we'll grab its id  
+                        var idDrink = response.drinks[i].idDrink
+                        thisIngredientCocktailsIDArray.push(idDrink)
+
+                    }
+                    // looping through the potential cocktails array, but as many times as the length of THIS search's array so we don't miss any new ones
+
+                    for (var i = 0; i < thisIngredientCocktailsIDArray.length; i++) {
+                        thisID = thisIngredientCocktailsIDArray[i]
+
+                        // should the if be before the for? 
+                        if (potentialCocktailsIDArray.length === 0) {
+                            console.log("hi")
+                            var cocktail = { cocktailID: idDrink, numTimesSearched: 1 }
+                            potentialCocktailsIDArray.push(cocktail)
+                        }
+                        //  if the potential cocktail list ISNT empty
+                        else {
+                            for (var j = 0; j < potentialCocktailsIDArray.length; j++) {
+                                console.log("henlo")
+                                potentialID = potentialCocktailsIDArray.cocktailID
+                                if (thisID === potentialID) {
+                                    potentialCocktailsIDArray.numTimesSearched++
+                                    break;
+                                }
+                                else {
+                                    // this makes an infinite loop 
+                                    // var cocktail = { cocktailID: idDrink, numTimesSearched: 1 }
+                                    // potentialCocktailsIDArray.push(cocktail)
+                                }
+
+                            }
+                        }
+
+                    }
+                    //now we have an array containing the ID's of all the cocktails containing this ingredient
+                    console.log(thisIngredientCocktailsIDArray)
+                    console.log(potentialCocktailsIDArray)
+                    // return potentialCocktailsIDArray;
+
+                    //////////////////// Now I need a way to do this
+                    // localStorage.setItem("potentialCocktailsIDArray", JSON.stringify(potentialCocktailsIDArray))
+                });
+        }
+
+        ///////////////This function takes a recipe ID and returns....(to be complete after sifting through ingredients.......)
+        function getCocktailRecipesFromID(cocktailID) {
+            var queryURL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailID}`
+            $.ajax({ url: queryURL, method: "GET", }).then(function (response) {
+                console.log("getCocktailRecipesFromID -> response", response)
+            });
+        }
+
+        // Example cocktail object
+        // var potentialRecipeObjectArray = []
+        // var cocktail = {
+        //     numTimesHitBySearch = 0,
+        //     name: "",
+        //     ID: "",
+        //     glass: "",
+        //     ingredientsArray: [],
+        //     measurementsArray: [],
+        //     instructions: "",
+
+
+        ////////////////function for checking if a cocktail ingredients list is a complete subset of ingredients-on-hand///////////////////
+        function arrayContainsArray(superset, subset) {
+            console.log("arrayContainsArray -> subset", subset)
+            console.log("arrayContainsArray -> superset", superset)
+            if (subset.length === 0) {
+                return false;
+            }
+            return subset.every(function (value) {
+                return (superset.indexOf(value) >= 0);
+            });
+        }
+
+    </script>
+</body>
+
+</html>
