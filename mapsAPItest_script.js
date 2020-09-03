@@ -7,9 +7,9 @@ var apiKey = "AIzaSyBXaAKr4axxaUBPZXJD-cKQF9qtHVrzXe0";
     - near+ZIPCODE is one option but could also be an actual physical address
         - ex. near+123+Example+Street,Austin,TX+78701
 */
-var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=bars+near+78626`; 
-var embedMap = $("#embed-map");
-embedMap.attr("src", queryURL);
+// var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=bars+near+78626`;
+// var embedMap = $("#embed-map");
+// embedMap.attr("src", queryURL);
 
 /* Toggle modal on by adding class is-active
 TODO:
@@ -29,18 +29,29 @@ $(".modal").addClass("is-active");
 $("#submit-button").on("click", function() {
     event.preventDefault();
     var zipOnly = $("#zip-only").val();
-    console.log("ZIP Only: " + zipOnly);
-    var address = $("#address").val();
-    address = address.replace(/ /g, "+");
-    console.log("Address: " + address);
-    var city = $("#city").val();
-    city = city.replace(/ /g, "+");
-    console.log("City: " + city);
-    var state = $("#state").val();
-    console.log("State: " + state);
-    var zip = $("#zip").val();
-    console.log("Zip: " + zip);
+    if (zipOnly) {
+        console.log("ZIP Only: " + zipOnly);
+        // Build the query URL
+        var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=bars+near+${zipOnly}`;
+        console.log("QueryURL: " + queryURL);
+    } else {
+        var address = $("#address").val().trim();
+        address = address.replace(/ /g, "+");
+        console.log("Address: " + address);
+        var city = $("#city").val().trim();
+        city = city.replace(/ /g, "+");
+        console.log("City: " + city);
+        var state = $("#state option:selected").val();
+        console.log("State: " + state);
+        var zip = $("#zip").val().trim();
+        console.log("Zip: " + zip);
+        // Build the query URL
+        var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=bars+near+${address},${city},${state}+${zip}`;
+        console.log("QueryURL: " + queryURL);
+    };
     $(".modal").removeClass("is-active");
+    var embedMap = $("#embed-map");
+    embedMap.attr("src", queryURL);
 });
 
 
