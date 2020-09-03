@@ -20,10 +20,29 @@ TODO:
 $(".modal").addClass("is-active");
 
 // Event listener on the modal to close the modal (the button is not doing anything currently)
-$(".modal").on("click", function() {
-    event.preventDefault;
+// $("#submit-button").on("click", function() {
+//     event.preventDefault();
+//     $(".modal").removeClass("is-active");
+// });
+
+// Select the user input for each field on the modal
+$("#submit-button").on("click", function() {
+    event.preventDefault();
+    var zipOnly = $("#zip-only").val();
+    console.log("ZIP Only: " + zipOnly);
+    var address = $("#address").val();
+    address = address.replace(/ /g, "+");
+    console.log("Address: " + address);
+    var city = $("#city").val();
+    city = city.replace(/ /g, "+");
+    console.log("City: " + city);
+    var state = $("#state").val();
+    console.log("State: " + state);
+    var zip = $("#zip").val();
+    console.log("Zip: " + zip);
     $(".modal").removeClass("is-active");
 });
+
 
 /* TODO:
     - add the code to select the user input in the modal
