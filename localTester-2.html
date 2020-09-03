@@ -23,7 +23,7 @@
         //our upgraded Patreon API key
         advancedAPIKey = "9973533"
 
-        //dummy tester array
+        //DUMMY VARIABLE
         // ingredientArray = ["Gin", "triple_sec", "lemon_juice"];
         ingredientToSearch = "vodka"
 
@@ -39,6 +39,7 @@
 
         //////////////////////////////////////////////////////////////////////////////////////////
 
+        // tester buttons for multiple ajax calls
         $("#gin").on("click", function (event) {
             getCocktailIDs("gin")
         })
@@ -51,11 +52,15 @@
 
         //////////////////////// this function returns an array of ID's, each of which represents a cocktail containing the searched ingredient.
         function getCocktailIDs(ingredientToSearch) {
+
             // build the query url
+            // multi-ingredient filter// 
             // queryURL = `https://www.thecocktaildb.com/api/json/v2/${advancedAPIKey}/filter.php?i=${ingredientToSearch}`
-            // queryURL = `https://www.thecocktaildb.com/api/json/v1/1/search.php?i=${ingredientToSearch}`
+
+            // Single ingredient search //
             queryURL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientToSearch}`
-            // // Performing our AJAX GET request
+
+            // // Performing AJAX GET request
             $.ajax({
                 url: queryURL,
                 method: "GET",
@@ -64,61 +69,97 @@
                 .then(function (response) {
                     console.log("getCocktailIDs -> response", response)
                     // This array will hold the ID's of all the cocktails that contain this ingredient
-                    // var thisIngredientCocktailsIDArray = JSON.parse(localStorage.getItem(potentialCocktailsIDArray)) || []
+
+                    //FIXME: var thisIngredientCocktailsIDArray = JSON.parse(localStorage.getItem(potentialCocktailsObjectArray)) || []
+
+                    // This array holds the ID's for all the cocktails matching the searched ingredient
                     var thisIngredientCocktailsIDArray = []
-                    var potentialCocktailsIDArray = JSON.parse(localStorage.getItem(potentialCocktailsIDArray)) || []
-                    // console.log(localStorage.getItem(potentialCocktailsIDArray))
+
+                    // This array holds the COCKTAIL OBJECTS for all cocktails matching user-inputted ingredients so far
+                    var potentialCocktailsObjectArray = JSON.parse(localStorage.getItem("potentialCocktailsObjectArray")) || []
+                    //FIXME: I think this is what's throwing me off the most at the moment
+                    console.log(potentialCocktailsObjectArray)
 
                     // We are expecting a large array of cocktails, each of which contains the searched ingredient as one of its ingredients
                     var returnedDrinksArray = response.drinks
+
                     // loop through this array 
                     for (var i = 0; i < returnedDrinksArray.length; i++) {
+
                         // Now for each drink in this array, we'll grab its id  
                         var idDrink = response.drinks[i].idDrink
+                        // and push it onto the array holding this list's drinks' IDs
                         thisIngredientCocktailsIDArray.push(idDrink)
 
                     }
-                    // looping through the potential cocktails array, but as many times as the length of THIS search's array so we don't miss any new ones
 
-                    for (var i = 0; i < thisIngredientCocktailsIDArray.length; i++) {
-                        thisID = thisIngredientCocktailsIDArray[i]
 
-                        // should the if be before the for? 
-                        if (potentialCocktailsIDArray.length === 0) {
-                            console.log("hi")
-                            var cocktail = { cocktailID: idDrink, numTimesSearched: 1 }
-                            potentialCocktailsIDArray.push(cocktail)
-                        }
-                        //  if the potential cocktail list ISNT empty
-                        else {
-                            for (var j = 0; j < potentialCocktailsIDArray.length; j++) {
-                                console.log("henlo")
-                                potentialID = potentialCocktailsIDArray.cocktailID
+                    // This checks to see if the potential cocktails ID array is empty (i.e. no ingredients have been searched yet)
+                    if (potentialCocktailsObjectArray.length === 0) {
+                        console.log("no previous cocktail object array found")
+                        // function that loops through thisIngredientCocktailsID Array and adds each to a new cocktail object
+                        // and appeneds to potentialCocktailsObject Array
+                        cocktailIDArrayToObjectArray(thisIngredientCocktailsIDArray, potentialCocktailsObjectArray)
+                        console.log(potentialCocktailsObjectArray)
+
+                    }
+
+                    else {
+                        // looping through the array we just built for this ingredient, and for each ID in the array
+                        // check the "potential cocktails" Object Array and look for an object with this key. 
+                        // If one is found, increment numFound counter. If not found, create and append new object with that ID.
+                        for (var i = 0; i < thisIngredientCocktailsIDArray.length; i++) {
+                            thisID = thisIngredientCocktailsIDArray[i]
+                            // console.log("getCocktailIDs -> thisID", thisID)
+                            // console.log("getCocktailIDs -> potentialCocktailsObjectArray", potentialCocktailsObjectArray)
+                            var IDFound = false;
+
+                            for (var j = 0; j < potentialCocktailsObjectArray.length; j++) {
+                                potentialID = potentialCocktailsObjectArray[j].cocktailID
+                                // console.log("getCocktailIDs -> potentialID", potentialID)
+
+
+                                // console.log("getCocktailIDs -> potentialID", potentialID)
+
+
                                 if (thisID === potentialID) {
-                                    potentialCocktailsIDArray.numTimesSearched++
+                                    console.log("id found!")
+                                    potentialCocktailsObjectArray[j].numTimesSearched++
+                                    IDFound = true
                                     break;
                                 }
-                                else {
-                                    // this makes an infinite loop 
-                                    // var cocktail = { cocktailID: idDrink, numTimesSearched: 1 }
-                                    // potentialCocktailsIDArray.push(cocktail)
-                                }
-
+                                // else {
+                                // }
                             }
+                            // if (!IDFound) {
+                            //     console.log("No ID Found")
+                            //     var cocktail = { cocktailID: idDrink, numTimesSearched: 1 }
+                            //     potentialCocktailsObjectArray.push(cocktail)
+                            // }
                         }
 
                     }
                     //now we have an array containing the ID's of all the cocktails containing this ingredient
                     console.log(thisIngredientCocktailsIDArray)
-                    console.log(potentialCocktailsIDArray)
-                    // return potentialCocktailsIDArray;
+                    console.log(potentialCocktailsObjectArray)
+                    // return potentialCocktailsObjectArray;
 
-                    //////////////////// Now I need a way to do this
-                    // localStorage.setItem("potentialCocktailsIDArray", JSON.stringify(potentialCocktailsIDArray))
+                    // Now store somewhere we can check that object array on subsequent ingredient search
+                    localStorage.setItem("potentialCocktailsObjectArray", JSON.stringify(potentialCocktailsObjectArray))
                 });
         }
+        ///////////////FUNCTION - add an array of cocktail ID's to an array of cocktail objects 
+        function cocktailIDArrayToObjectArray(cocktailIDArray, cocktailObjectArray) {
 
-        ///////////////This function takes a recipe ID and returns....(to be complete after sifting through ingredients.......)
+            //loop through cocktail ID array
+            for (var i = 0; i < cocktailIDArray.length; i++) {
+
+                // And create a new cocktail object, and push to the cocktail object array
+                var cocktail = { cocktailID: cocktailIDArray[i], numTimesSearched: 1 }
+                cocktailObjectArray.push(cocktail);
+            }
+        }
+        ///////////////FUNCTION:  takes a recipe ID and returns....(to be complete after sifting through ingredients.......)
         function getCocktailRecipesFromID(cocktailID) {
             var queryURL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailID}`
             $.ajax({ url: queryURL, method: "GET", }).then(function (response) {
@@ -129,7 +170,7 @@
         // Example cocktail object
         // var potentialRecipeObjectArray = []
         // var cocktail = {
-        //     numTimesHitBySearch = 0,
+        //     numTimesSearched = 0,
         //     name: "",
         //     ID: "",
         //     glass: "",
@@ -138,7 +179,7 @@
         //     instructions: "",
 
 
-        ////////////////function for checking if a cocktail ingredients list is a complete subset of ingredients-on-hand///////////////////
+        ////////////////FUNCTION: for checking if a cocktail ingredients list is a complete subset of ingredients-on-hand///////////////////
         function arrayContainsArray(superset, subset) {
             console.log("arrayContainsArray -> subset", subset)
             console.log("arrayContainsArray -> superset", superset)
