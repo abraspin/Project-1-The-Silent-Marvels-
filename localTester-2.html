@@ -11,13 +11,21 @@
     <h1> Open the console! </h1>
 
     <button id="gin"> Gin </button>
-    <button id="vodka"> Vodka </button>
+    <!-- <button id="vodka"> Vodka </button> -->
     <button id="triple_sec"> triple sec </button>
+    <button id="lemon_juice"> lemon-juice </button>
+    <button id="sort-object-array"> Sort Cocktail Object Array </button>
 
     <!-- jQuery library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script>
+
+        // FIXME: Why does this cause a jQuery error?
+        $(document).ready(function () {
+            localStorage.setItem("potentialCocktailsObjectArray", "[]")
+        })
+
 
         //// variable declarations
         //our upgraded Patreon API key
@@ -47,7 +55,22 @@
         $("#vodka").on("click", function (event) {
             getCocktailIDs("vodka")
         })
+        $("#triple_sec").on("click", function (event) {
+            getCocktailIDs("triple_sec")
+        })
+        $("#lemon_juice").on("click", function (event) {
+            getCocktailIDs("lemon_juice")
+        })
+        $("#sort-object-array").on("click", function (event) {
+            sortedCocktailArray = JSON.parse(localStorage.getItem("potentialCocktailsObjectArray"))
 
+            sortedCocktailArray.sort((a, b) => parseInt(b.numTimesSearched) > (parseInt(a.numTimesSearched)) ? 1 : -1);
+            // sortedCocktailArray.sort((a, b) => b.cocktailID.localeCompare(a.cocktailID));
+
+
+
+            console.log(sortedCocktailArray)
+        })
 
 
         //////////////////////// this function returns an array of ID's, each of which represents a cocktail containing the searched ingredient.
@@ -131,11 +154,11 @@
                                 // else {
                                 // }
                             }
-                            // if (!IDFound) {
-                            //     console.log("No ID Found")
-                            //     var cocktail = { cocktailID: idDrink, numTimesSearched: 1 }
-                            //     potentialCocktailsObjectArray.push(cocktail)
-                            // }
+                            if (!IDFound) {
+                                console.log("No ID Found")
+                                var cocktail = { cocktailID: idDrink, numTimesSearched: 1 }
+                                potentialCocktailsObjectArray.push(cocktail)
+                            }
                         }
 
                     }
