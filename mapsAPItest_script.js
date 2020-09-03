@@ -45,3 +45,8 @@ FIXME:
         - will need to write code that it will stop the function if no input is listed
         - or add another button in the modal that simply just closes the modal (.removeClass("is-active"))
 */
+
+// TEST: Close modal using X in the corner (this is one option for fixing the above fixme)
+$(".modal-close").on("click", function() {
+    $(".modal").removeClass("is-active");
+});
