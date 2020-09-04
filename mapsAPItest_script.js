@@ -1,12 +1,11 @@
 // This is the API key I set up through Google
 var apiKey = "AIzaSyBXaAKr4axxaUBPZXJD-cKQF9qtHVrzXe0";
 
-/* Toggle modal on by adding class is-active
-TODO:
-    - would just have to add this wherever in the code makes sense for it to pop up
-    - and by what method, ie. a button
-*/
-$(".modal").addClass("is-active");
+// Toggle modal active by using click listener on find-bar-button
+$("#find-bar-button").on("click", function() {
+    event.preventDefault();
+    $(".modal").addClass("is-active");
+});
 
 // Select the user input for each field on the modal
 $("#submit-button").on("click", function() {
