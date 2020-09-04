@@ -5,23 +5,29 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
+    <!-- Link to Bulma CSS Library  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
 </head>
 
 <body>
-    <h1> Open the console! </h1>
+    <h1 class='title '> Open the console! </h1>
 
-    <button id="gin"> Gin </button>
-    <!-- <button id="vodka"> Vodka </button> -->
-    <button id="triple_sec"> triple sec </button>
-    <button id="lemon_juice"> lemon-juice </button>
-    <button id="sort-object-array"> Sort Cocktail Object Array </button>
+    <button class='button' id="gin"> Gin </button>
+    <button class='button' id="triple_sec"> triple sec </button>
+    <button class='button' id="lemon_juice"> lemon-juice </button>
+    <button class='button' id="sort-object-array"> Sort Cocktail Object Array </button>
+    <button class='button' id="cocktail-id"> cocktail ID </button>
+
+    <div class="container">
+
+
+    </div>
 
     <!-- jQuery library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 
     <script>
 
-        // FIXME: Why does this cause a jQuery error?
         $(document).ready(function () {
             localStorage.setItem("potentialCocktailsObjectArray", "[]")
         })
@@ -62,18 +68,18 @@
             getCocktailIDs("lemon_juice")
         })
         $("#sort-object-array").on("click", function (event) {
-            sortedCocktailArray = JSON.parse(localStorage.getItem("potentialCocktailsObjectArray"))
-
-            sortedCocktailArray.sort((a, b) => parseInt(b.numTimesSearched) > (parseInt(a.numTimesSearched)) ? 1 : -1);
-            // sortedCocktailArray.sort((a, b) => b.cocktailID.localeCompare(a.cocktailID));
-
-
-
-            console.log(sortedCocktailArray)
+            sortCocktailObjectArray("potentialCocktailsObjectArray")
+        })
+        $("#cocktail-id").on("click", function (event) {
+            getCocktailRecipesFromID("14366")
         })
 
 
-        //////////////////////// this function returns an array of ID's, each of which represents a cocktail containing the searched ingredient.
+        //////////////////////// TODO: this function returns nothing 
+        // It takes an ingredient string and queries the docktailDB for an array of cocktail IDs.
+        // Then it checks those IDs against the existing array of cocktail objects in local storage (if it exists)
+        // For each ID returned by the query: If it finds the ID in the existing array, it increments that cocktail's internal counter
+        // If it doesn't find an ID in the existing array, it makes a new cocktail object and pushes it on. 
         function getCocktailIDs(ingredientToSearch) {
 
             // build the query url
@@ -100,7 +106,6 @@
 
                     // This array holds the COCKTAIL OBJECTS for all cocktails matching user-inputted ingredients so far
                     var potentialCocktailsObjectArray = JSON.parse(localStorage.getItem("potentialCocktailsObjectArray")) || []
-                    //FIXME: I think this is what's throwing me off the most at the moment
                     console.log(potentialCocktailsObjectArray)
 
                     // We are expecting a large array of cocktails, each of which contains the searched ingredient as one of its ingredients
@@ -185,8 +190,53 @@
         ///////////////FUNCTION:  takes a recipe ID and returns....(to be complete after sifting through ingredients.......)
         function getCocktailRecipesFromID(cocktailID) {
             var queryURL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailID}`
+            console.log("getCocktailRecipesFromID -> queryURL", queryURL)
             $.ajax({ url: queryURL, method: "GET", }).then(function (response) {
-                console.log("getCocktailRecipesFromID -> response", response)
+                console.log(response)
+
+                //this contains all the cocktail details
+                var drinkDetails = response.drinks[0]
+
+                //GET cocktail name
+                var cocktailName = drinkDetails.strDrink
+                console.log(cocktailName)
+
+                //GET cocktail thumbnail Reference
+                var cocktailThumbnailRef = drinkDetails.strDrinkThumb
+                console.log(cocktailThumbnailRef)
+
+                ////GET ingredients list
+                var ingredientListArray = []
+                for (var i = 1; i < 16; i++) {
+                    var key = `strIngredient${i}`;
+                    //check to make sure ingredient exists (else it's set to null)
+                    if (drinkDetails[key] != null) {
+                        ingredientListArray.push(drinkDetails[key])
+                    }
+                }
+
+                ////GET ingredient measurements
+                var ingredientMeasurementArray = []
+                for (var i = 1; i < 16; i++) {
+                    var key = `strMeasure${i}`;
+                    //check to make sure ingredient exists (else it's set to null)
+                    // if (drinkDetails[key] != null) {
+                    ingredientMeasurementArray.push(drinkDetails[key])
+                    // console.log(drinkDetails[key]);
+                    // }
+                }
+
+                //BUILD array with Ingredient <-> measurement pairing in each element
+                var ingredientsWithMeasuresArray = concatenateIngredientMeasures(ingredientListArray, ingredientMeasurementArray)
+                console.log(ingredientsWithMeasuresArray)
+
+                // GET Glass type
+                var cocktailGlassType = drinkDetails.strGlass
+                console.log(cocktailGlassType)
+
+                // GET instructions
+                var cocktailInstructions = drinkDetails.strInstructions
+                console.log(cocktailInstructions)
             });
         }
 
@@ -201,6 +251,26 @@
         //     measurementsArray: [],
         //     instructions: "",
 
+        ///////////////FUNCTION - sort a cocktail object array from local storage, based on numTimesSearched counter
+        function sortCocktailObjectArray(localStorageKey) {
+            // this is assuming there is an array in local storage with the name localStorageKey
+            sortedCocktailArray = JSON.parse(localStorage.getItem(localStorageKey)) || [];
+
+            sortedCocktailArray.sort((a, b) => parseInt(b.numTimesSearched) > (parseInt(a.numTimesSearched)) ? 1 : -1);
+            // sortedCocktailArray.sort((a, b) => b.cocktailID.localeCompare(a.cocktailID));
+            console.log(sortedCocktailArray)
+            return sortedCocktailArray;
+        }
+
+
+        ////////////////FUNCTION:concatenates 2 arrays into string array
+        function concatenateIngredientMeasures(ingredientArray, measurementsArray) {
+            var ingredientsWithMeasuresArray = [];
+            for (var i = 0; i < ingredientArray.length; i++) {
+                ingredientsWithMeasuresArray.push(`${ingredientArray[i]} - ${measurementsArray[i]}`)
+            }
+            return ingredientsWithMeasuresArray
+        }
 
         ////////////////FUNCTION: for checking if a cocktail ingredients list is a complete subset of ingredients-on-hand///////////////////
         function arrayContainsArray(superset, subset) {
@@ -214,6 +284,87 @@
             });
         }
 
+        function renderCocktailCard(name, thumbnailRef, ingredArray, glass, instructions) {
+            //             $(".container").append(` 
+            //             <div class="card">
+            //   <div class="card-image">
+            //     <figure class="image is-4by3">
+            //       <img src="https://www.thecocktaildb.com/images/media/drink/mtpxgk1504373297.jpg" alt="Placeholder image">
+            //     </figure>
+            //   </div>
+            //   <div class="card-content">
+            //     <div class="media">
+            //       <div class="media-left">
+            //         <figure class="image is-48x48">
+            //           <img src="https://www.thecocktaildb.com/images/media/drink/mtpxgk1504373297.jpg" alt="Placeholder image">
+            //         </figure>
+            //       </div>
+            //       <div class="media-content">
+            //         <p class="title is-4">John Smith</p>
+            //         <p class="subtitle is-6">@johnsmith</p>
+            //       </div>
+            //     </div>
+
+            //     <div class="content">
+            //       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            //       Phasellus nec iaculis mauris. <a>@bulmaio</a>.
+            //       <a href="#">#css</a> <a href="#">#responsive</a>
+            //       <br>
+            //       <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
+            //     </div>
+            //   </div>
+            // </div>
+            //             `)
+            $(".container").append(`
+<div class="tile is-ancestor">
+  <div class="tile is-vertical is-8">
+    <div class="tile">
+      <div class="tile is-parent is-vertical">
+        <article class="tile is-child notification is-primary">
+          <p class="title">Vertical...</p>
+          <p class="subtitle">Top tile</p>
+        </article>
+        <article class="tile is-child notification is-warning">
+          <p class="title">...tiles</p>
+          <p class="subtitle">Bottom tile</p>
+        </article>
+      </div>
+      <div class="tile is-parent">
+        <article class="tile is-child notification is-info">
+          <p class="title">Middle tile</p>
+          <p class="subtitle">With an image</p>
+          <figure class="image is-4by3">
+            <img src="https://bulma.io/images/placeholders/640x480.png">
+          </figure>
+        </article>
+      </div>
+    </div>
+    <div class="tile is-parent">
+      <article class="tile is-child notification is-danger">
+        <p class="title">Wide tile</p>
+        <p class="subtitle">Aligned with the right tile</p>
+        <div class="content">
+          <!-- Content -->
+        </div>
+      </article>
+    </div>
+  </div>
+  <div class="tile is-parent">
+    <article class="tile is-child notification is-success">
+      <div class="content">
+        <p class="title">Tall tile</p>
+        <p class="subtitle">With even more content</p>
+        <div class="content">
+          <!-- Content -->
+        </div>
+      </div>
+    </article>
+  </div>
+</div>
+`)
+
+        }
+        // renderCocktailCard()
     </script>
 </body>
 
