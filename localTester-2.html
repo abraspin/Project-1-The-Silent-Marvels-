@@ -46,25 +46,18 @@
         })
 
 
+        // Example cocktail object
+        // var cocktail = {
+        //     numTimesSearched = # of times this recipe has been found by ingredient searches,
+        //    cocktailID: "cocktail name" }
+
         //// variable declarations
-        //our upgraded Patreon API key
+        //our upgraded Patreon API key (not actually necessary it turns out...oops!)
         advancedAPIKey = "9973533"
 
-        //DUMMY VARIABLE
-        // ingredientArray = ["Gin", "triple_sec", "lemon_juice"];
-        ingredientToSearch = "vodka"
 
 
-
-        //////////////////////////////////////////////////////////////////////////////////////////
-        // array containing ID's of all recipes containing searchTerm ("gin")
-        // var cocktailIDArray = getCocktailIDs(ingredientToSearch);
-        // console.log(getCocktailIDs(ingredientToSearch))
-
-        //run the getRepcipe function on each element in that array
-        // cocktailIDArray.forEach(getCocktailRecipesFromID)
-
-        //////////////////////////////////////////////////////////////////////////////////////////
+        ///////////////////////////////TESTER CODE ///////////////////////////////////////////////////////////
 
         // tester buttons for multiple ajax calls
         $("#gin").on("click", function (event) {
@@ -92,9 +85,15 @@
             removeIngredient(event.currentTarget.classList[1], localStorage.getItem("potentialCocktailsObjectArray"))
         })
 
+        //////////////////////////////////////////////////////////////////////////////////////////
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+        ///////////FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS///////
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////
+
 
         //////////////////////// TODO: this function returns nothing 
-        // It takes an ingredient string and queries the docktailDB for an array of cocktail IDs.
+        // This function takes an ingredient string and queries the docktailDB for an array of cocktail IDs.
         // Then it checks those IDs against the existing array of cocktail objects in local storage (if it exists)
         // For each ID returned by the query: If it finds the ID in the existing array, it increments that cocktail's internal counter
         // If it doesn't find an ID in the existing array, it makes a new cocktail object and pushes it on. 
@@ -136,9 +135,7 @@
                         var idDrink = response.drinks[i].idDrink
                         // and push it onto the array holding this list's drinks' IDs
                         thisIngredientCocktailsIDArray.push(idDrink)
-
                     }
-
 
                     // This checks to see if the potential cocktails ID array is empty (i.e. no ingredients have been searched yet)
                     if (potentialCocktailsObjectArray.length === 0) {
@@ -147,26 +144,17 @@
                         // and appeneds to potentialCocktailsObject Array
                         cocktailIDArrayToObjectArray(thisIngredientCocktailsIDArray, potentialCocktailsObjectArray)
                         console.log(potentialCocktailsObjectArray)
-
                     }
-
                     else {
                         // looping through the array we just built for this ingredient, and for each ID in the array
                         // check the "potential cocktails" Object Array and look for an object with this key. 
-                        // If one is found, increment numFound counter. If not found, create and append new object with that ID.
+                        // If one is found, decrement numFound counter (it should find all of them)
                         for (var i = 0; i < thisIngredientCocktailsIDArray.length; i++) {
                             thisID = thisIngredientCocktailsIDArray[i]
-                            // console.log("getCocktailIDs -> thisID", thisID)
-                            // console.log("getCocktailIDs -> potentialCocktailsObjectArray", potentialCocktailsObjectArray)
                             var IDFound = false;
 
                             for (var j = 0; j < potentialCocktailsObjectArray.length; j++) {
                                 potentialID = potentialCocktailsObjectArray[j].cocktailID
-                                // console.log("getCocktailIDs -> potentialID", potentialID)
-
-
-                                // console.log("getCocktailIDs -> potentialID", potentialID)
-
 
                                 if (thisID === potentialID) {
                                     console.log("id found!")
@@ -174,8 +162,6 @@
                                     IDFound = true
                                     break;
                                 }
-                                // else {
-                                // }
                             }
                             if (!IDFound) {
                                 console.log("No ID Found")
@@ -183,7 +169,6 @@
                                 potentialCocktailsObjectArray.push(cocktail)
                             }
                         }
-
                     }
                     //now we have an array containing the ID's of all the cocktails containing this ingredient
                     console.log(thisIngredientCocktailsIDArray)
@@ -195,6 +180,7 @@
                 });
         }
         ///////////////FUNCTION - add an array of cocktail ID's to an array of cocktail objects 
+        // to be used ONLY when no cocktailObjectArray exists in local storage
         function cocktailIDArrayToObjectArray(cocktailIDArray, cocktailObjectArray) {
 
             //loop through cocktail ID array
@@ -205,7 +191,10 @@
                 cocktailObjectArray.push(cocktail);
             }
         }
-        ///////////////FUNCTION:  takes a recipe ID and returns....(to be complete after sifting through ingredients.......)
+
+        ///////////////FUNCTION:  takes a recipe ID and returns an array containing the below 6 values:
+        // Index 0: cocktail name, 1: thumbnail URL, 2: ingredients with measurements array, 3: cocktail glass, 4: instructions
+        //Index 0, 3, 4 are strings. Index 1 is a URL. Index 2 is an array of strings.
         function getCocktailRecipesFromID(cocktailID) {
             var queryURL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailID}`
             console.log("getCocktailRecipesFromID -> queryURL", queryURL)
@@ -255,26 +244,21 @@
                 // GET instructions
                 var cocktailInstructions = drinkDetails.strInstructions
                 console.log(cocktailInstructions)
+
+                var cocktailDetails = `[${cocktailName},${cocktailThumbnailRef},
+                ${ingredientsWithMeasuresArray},${cocktailGlassType},${cocktailInstructions}]`
+
+                //this function returns an array containing the above 6 values. Index 0, 3, 4 are strings. Index 1 is a URL. Index 2 is an array of strings.
+                return cocktailDetails;
             });
         }
 
-        // Example cocktail object
-        // var potentialRecipeObjectArray = []
-        // var cocktail = {
-        //     numTimesSearched = 0,
-        //     name: "",
-        //     ID: "",
-        //     glass: "",
-        //     ingredientsArray: [],
-        //     measurementsArray: [],
-        //     instructions: "",
-
         ///////////////FUNCTION - REMOVE INGREDIENT - This will re-run ajax call and remove it from "found recipes" or whatever
-        // ingredientstring: the ingredient to remove   ingredientArray: array of pre-searched ingredients
+        // ingredientstring: the ingredient to remove   ,   ingredientArray: array of pre-searched ingredients
         function removeIngredient(ingredientString, ingredientArray) {
-            //assuming this is inside of a click-event 
+            //assuming this is inside of a click-event and is getting passed the ingredient string 
 
-            //TODO: This should be made into a function bc I've now used the logic twice
+            //TODO: This could be made into a function bc I've now used nearly the same logic twice
             // Single ingredient search //
             queryURL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientString}`
 
@@ -313,7 +297,7 @@
                         thisID = thisIngredientCocktailsIDArray[i]
                         // console.log("getCocktailIDs -> thisID", thisID)
                         // console.log("getCocktailIDs -> potentialCocktailsObjectArray", potentialCocktailsObjectArray)
-                        var IDFound = false;
+                        // var IDFound = false;
 
                         for (var j = 0; j < potentialCocktailsObjectArray.length; j++) {
                             potentialID = potentialCocktailsObjectArray[j].cocktailID
@@ -321,7 +305,10 @@
                             if (thisID === potentialID) {
                                 console.log("id found!")
                                 potentialCocktailsObjectArray[j].numTimesSearched--;
-                                IDFound = true
+                                // IDFound = true
+
+                                //this break is so it will not iterate the rest of the array after it finds the ID it wants, which
+                                //should only appear once 
                                 break;
                             }
                         }
@@ -353,99 +340,22 @@
             return ingredientsWithMeasuresArray
         }
 
-        ////////////////FUNCTION: for checking if a cocktail ingredients list is a complete subset of ingredients-on-hand///////////////////
-        function arrayContainsArray(superset, subset) {
-            console.log("arrayContainsArray -> subset", subset)
-            console.log("arrayContainsArray -> superset", superset)
-            if (subset.length === 0) {
-                return false;
-            }
-            return subset.every(function (value) {
-                return (superset.indexOf(value) >= 0);
-            });
-        }
+        ////OBSOLETE////////////FUNCTION: for checking if a cocktail ingredients list is a complete subset of ingredients-on-hand///////////////////
+        // function arrayContainsArray(superset, subset) {
+        //     console.log("arrayContainsArray -> subset", subset)
+        //     console.log("arrayContainsArray -> superset", superset)
+        //     if (subset.length === 0) {
+        //         return false;
+        //     }
+        //     return subset.every(function (value) {
+        //         return (superset.indexOf(value) >= 0);
+        //     });
+        // }
 
         function renderCocktailCard(name, thumbnailRef, ingredArray, glass, instructions) {
-            //             $(".container").append(` 
-            //             <div class="card">
-            //   <div class="card-image">
-            //     <figure class="image is-4by3">
-            //       <img src="https://www.thecocktaildb.com/images/media/drink/mtpxgk1504373297.jpg" alt="Placeholder image">
-            //     </figure>
-            //   </div>
-            //   <div class="card-content">
-            //     <div class="media">
-            //       <div class="media-left">
-            //         <figure class="image is-48x48">
-            //           <img src="https://www.thecocktaildb.com/images/media/drink/mtpxgk1504373297.jpg" alt="Placeholder image">
-            //         </figure>
-            //       </div>
-            //       <div class="media-content">
-            //         <p class="title is-4">John Smith</p>
-            //         <p class="subtitle is-6">@johnsmith</p>
-            //       </div>
-            //     </div>
-
-            //     <div class="content">
-            //       Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-            //       Phasellus nec iaculis mauris. <a>@bulmaio</a>.
-            //       <a href="#">#css</a> <a href="#">#responsive</a>
-            //       <br>
-            //       <time datetime="2016-1-1">11:09 PM - 1 Jan 2016</time>
-            //     </div>
-            //   </div>
-            // </div>
-            //             `)
-            $(".container").append(`
-<div class="tile is-ancestor">
-  <div class="tile is-vertical is-8">
-    <div class="tile">
-      <div class="tile is-parent is-vertical">
-        <article class="tile is-child notification is-primary">
-          <p class="title">Vertical...</p>
-          <p class="subtitle">Top tile</p>
-        </article>
-        <article class="tile is-child notification is-warning">
-          <p class="title">...tiles</p>
-          <p class="subtitle">Bottom tile</p>
-        </article>
-      </div>
-      <div class="tile is-parent">
-        <article class="tile is-child notification is-info">
-          <p class="title">Middle tile</p>
-          <p class="subtitle">With an image</p>
-          <figure class="image is-4by3">
-            <img src="https://bulma.io/images/placeholders/640x480.png">
-          </figure>
-        </article>
-      </div>
-    </div>
-    <div class="tile is-parent">
-      <article class="tile is-child notification is-danger">
-        <p class="title">Wide tile</p>
-        <p class="subtitle">Aligned with the right tile</p>
-        <div class="content">
-          <!-- Content -->
-        </div>
-      </article>
-    </div>
-  </div>
-  <div class="tile is-parent">
-    <article class="tile is-child notification is-success">
-      <div class="content">
-        <p class="title">Tall tile</p>
-        <p class="subtitle">With even more content</p>
-        <div class="content">
-          <!-- Content -->
-        </div>
-      </div>
-    </article>
-  </div>
-</div>
-`)
-
+            // $(".container").append(` `)
         }
-        // renderCocktailCard()
+
     </script>
 </body>
 
