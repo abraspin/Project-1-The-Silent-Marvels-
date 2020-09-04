@@ -11,15 +11,28 @@
 
 <body>
     <h1 class='title '> Open the console! </h1>
-
-    <button class='button' id="gin"> Gin </button>
-    <button class='button' id="triple_sec"> triple sec </button>
-    <button class='button' id="lemon_juice"> lemon-juice </button>
-    <button class='button' id="sort-object-array"> Sort Cocktail Object Array </button>
-    <button class='button' id="cocktail-id"> cocktail ID </button>
-
+    <div>
+        <button class='button' id="gin"> Gin </button>
+        <a class="delete gin is-large"></a>
+    </div>
+    <div>
+        <button class='button' id="triple_sec"> triple sec </button>
+        <a class="delete triple_sec is-large"></a>
+    </div>
+    <div>
+        <button class='button ' id="lemon_juice"> lemon-juice </button>
+        <a class="delete lemon_juice is-large"></a>
+    </div>
+    <div>
+        <button class='button' id="sort-object-array"> Sort Cocktail Object Array </button>
+    </div>
+    <div>
+        <button class='button' id="cocktail-id"> cocktail ID </button>
+    </div>
     <div class="container">
+        <ul id='ingredients-list'>
 
+        </ul>
 
     </div>
 
@@ -72,6 +85,11 @@
         })
         $("#cocktail-id").on("click", function (event) {
             getCocktailRecipesFromID("14366")
+        })
+
+        $(".delete").on("click", function (event) {
+            console.log(event.currentTarget.classList[1])
+            removeIngredient(event.currentTarget.classList[1], localStorage.getItem("potentialCocktailsObjectArray"))
         })
 
 
@@ -250,6 +268,69 @@
         //     ingredientsArray: [],
         //     measurementsArray: [],
         //     instructions: "",
+
+        ///////////////FUNCTION - REMOVE INGREDIENT - This will re-run ajax call and remove it from "found recipes" or whatever
+        // ingredientstring: the ingredient to remove   ingredientArray: array of pre-searched ingredients
+        function removeIngredient(ingredientString, ingredientArray) {
+            //assuming this is inside of a click-event 
+
+            //TODO: This should be made into a function bc I've now used the logic twice
+            // Single ingredient search //
+            queryURL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientString}`
+
+            // // Performing AJAX GET request
+            $.ajax({
+                url: queryURL,
+                method: "GET",
+            })
+                // After the data comes back from the API
+                .then(function (response) {
+                    console.log("getCocktailIDs -> response", response)
+                    // This array will hold the ID's of all the cocktails that contain this ingredient
+                    var thisIngredientCocktailsIDArray = []
+
+                    // This array holds the COCKTAIL OBJECTS for all cocktails matching user-inputted ingredients so far
+                    var potentialCocktailsObjectArray = JSON.parse(localStorage.getItem("potentialCocktailsObjectArray")) || []
+                    // console.log(ingredientArray)
+
+                    // We are expecting a large array of cocktails, each of which contains the searched ingredient as one of its ingredients
+                    var returnedDrinksArray = response.drinks
+
+                    // loop through this array 
+                    for (var i = 0; i < returnedDrinksArray.length; i++) {
+
+                        // Now for each drink in this array, we'll grab its id  
+                        var idDrink = response.drinks[i].idDrink
+                        // and push it onto the array holding this list's drinks' IDs
+                        thisIngredientCocktailsIDArray.push(idDrink)
+
+                    }
+
+                    // looping through the array we just built for this ingredient, and for each ID in the array
+                    // check the "potential cocktails" Object Array and look for an object with this key. 
+                    // If one is found, decrement its numFound counter. (IT should find all of them!!)
+                    for (var i = 0; i < thisIngredientCocktailsIDArray.length; i++) {
+                        thisID = thisIngredientCocktailsIDArray[i]
+                        // console.log("getCocktailIDs -> thisID", thisID)
+                        // console.log("getCocktailIDs -> potentialCocktailsObjectArray", potentialCocktailsObjectArray)
+                        var IDFound = false;
+
+                        for (var j = 0; j < potentialCocktailsObjectArray.length; j++) {
+                            potentialID = potentialCocktailsObjectArray[j].cocktailID
+
+                            if (thisID === potentialID) {
+                                console.log("id found!")
+                                potentialCocktailsObjectArray[j].numTimesSearched--;
+                                IDFound = true
+                                break;
+                            }
+                        }
+                    }
+                    //AT THE END we change the local storage array to now exclude this ingredient 
+                    localStorage.setItem("potentialCocktailsObjectArray", JSON.stringify(potentialCocktailsObjectArray))
+                });
+
+        }
 
         ///////////////FUNCTION - sort a cocktail object array from local storage, based on numTimesSearched counter
         function sortCocktailObjectArray(localStorageKey) {
