@@ -38,14 +38,19 @@ $("#submit-button").on("click", function() {
     embedMap.attr("src", queryURL);
 });
 
+// Close modal using X in the corner
+$(".modal-close").on("click", function() {
+    $(".modal").removeClass("is-active");
+});
+
+// Close modal by being able to click on .modal-background to close the modal
+$(".modal-background").on("click", function() {
+    $(".modal").removeClass("is-active");
+});
+
 /*
 FIXME:
     - how do we work around if a user DOES NOT want to search for bars?
         - will need to write code that it will stop the function if no input is listed
         - or add another button in the modal that simply just closes the modal (.removeClass("is-active"))
 */
-
-// TEST: Close modal using X in the corner (this is one option for fixing the above fixme)
-$(".modal-close").on("click", function() {
-    $(".modal").removeClass("is-active");
-});
