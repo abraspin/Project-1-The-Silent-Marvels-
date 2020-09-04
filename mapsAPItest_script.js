@@ -10,12 +10,14 @@ $("#find-bar-button").on("click", function() {
 // Select the user input for each field on the modal
 $("#submit-button").on("click", function() {
     event.preventDefault();
+    var searchFor = $('input[name="answer"]:checked').val();
+    console.log("Search for: " + searchFor);
     var zipOnly = $("#zip-only").val();
     if (zipOnly) {
         console.log("ZIP Only: " + zipOnly);
         // Build the query URL
         // Search parameters start after the q= and use either + or %20 to escape spaces
-        var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=bars+near+${zipOnly}`;
+        var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${searchFor}+near+${zipOnly}`;
         console.log("QueryURL: " + queryURL);
     } else {
         var address = $("#address").val().trim();
@@ -30,7 +32,7 @@ $("#submit-button").on("click", function() {
         console.log("Zip: " + zip);
         // Build the query URL
         // Search parameters start after the q= and use either + or %20 to escape spaces
-        var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=bars+near+${address},${city},${state}+${zip}`;
+        var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${searchFor}+near+${address},${city},${state}+${zip}`;
         console.log("QueryURL: " + queryURL);
     };
     $(".modal").removeClass("is-active");
