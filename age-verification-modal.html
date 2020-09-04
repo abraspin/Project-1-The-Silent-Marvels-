@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Link to Bulma CSS Library  -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+</head>
+
+<body>
+    <h1> Open the console! </h1>
+
+
+    <div class="modal is-active">
+        <div class="modal-background"></div>
+        <!-- For some reason this padding was necessary to avoid an internal scroll bar -->
+        <div class="modal-content" style='padding:15px'>
+            <!-- Any other Bulma elements you want -->
+            <div class="columns">
+                <div class="column">
+                    <p class="has-text-centered title" style="color: white;"> HOLD IT! </p>
+                    <p class="has-text-centered subtitle" style="color: white;">Are you legally old enough to consume
+                        alcoholic beverages?</pclass="has-text-centered title" style="color: white;">
+                        <br>
+                        <hr>
+                        <br>
+                        <button id='age-yes' style='width:40%; height:auto' class='button is-pulled-left ml-5 is-large'>
+                            Yes! <br> Take me in!</button>
+                        <button id='age-no' style='width:40%;height:auto' class='button is-pulled-right mr-5 is-large'>
+                            No! <br> I was just leaving!</button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- jQuery library -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script>
+            $(document).ready(function (event) {
+
+                $("#age-no").on("click", function (event) {
+                    window.location.href = "https://www.github.com";
+                })
+                $("#age-yes").on("click", function (event) {
+                    $(".modal").removeClass("is-active");
+                })
+
+            })
+
+
+
+        </script>
+</body>
+
+</html>
