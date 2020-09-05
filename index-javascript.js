@@ -35,7 +35,7 @@ $("#cocktail-id").on("click", function (event) {
 });
 
 $(".delete").on("click", function (event) {
-  console.log(event.currentTarget.classList[1]);
+  // console.log(event.currentTarget.classList[1]);
   removeIngredient(event.currentTarget.classList[1], localStorage.getItem("potentialCocktailsObjectArray"));
 });
 
@@ -43,7 +43,7 @@ $(".delete").on("click", function (event) {
 $("#ingredient-search-button").on("click", function (event) {
   event.preventDefault();
   var searchedIngredient = $("#ingredient-search").val();
-  console.log(searchedIngredient);
+  // console.log(searchedIngredient);
   getCocktailIDs(searchedIngredient);
   $("#ingredient-list-element").append(
     `<div class="control"><span class="tag is-link is-large">${searchedIngredient}</span></div>`
@@ -77,7 +77,7 @@ function getCocktailIDs(ingredientToSearch) {
   })
     // After the data comes back from the API
     .then(function (response) {
-      console.log("getCocktailIDs -> response", response);
+      // console.log("getCocktailIDs -> response", response);
       // This array will hold the ID's of all the cocktails that contain this ingredient
 
       //FIXME: var thisIngredientCocktailsIDArray = JSON.parse(localStorage.getItem(potentialCocktailsObjectArray)) || []
@@ -87,7 +87,7 @@ function getCocktailIDs(ingredientToSearch) {
 
       // This array holds the COCKTAIL OBJECTS for all cocktails matching user-inputted ingredients so far
       var potentialCocktailsObjectArray = JSON.parse(localStorage.getItem("potentialCocktailsObjectArray")) || [];
-      console.log(potentialCocktailsObjectArray);
+      // console.log(potentialCocktailsObjectArray);
 
       // We are expecting a large array of cocktails, each of which contains the searched ingredient as one of its ingredients
       var returnedDrinksArray = response.drinks;
@@ -102,11 +102,11 @@ function getCocktailIDs(ingredientToSearch) {
 
       // This checks to see if the potential cocktails ID array is empty (i.e. no ingredients have been searched yet)
       if (potentialCocktailsObjectArray.length === 0) {
-        console.log("no previous cocktail object array found");
+        // console.log("no previous cocktail object array found");
         // function that loops through thisIngredientCocktailsID Array and adds each to a new cocktail object
         // and appeneds to potentialCocktailsObject Array
         cocktailIDArrayToObjectArray(thisIngredientCocktailsIDArray, potentialCocktailsObjectArray);
-        console.log(potentialCocktailsObjectArray);
+        // console.log(potentialCocktailsObjectArray);
       } else {
         // looping through the array we just built for this ingredient, and for each ID in the array
         // check the "potential cocktails" Object Array and look for an object with this key.
@@ -119,22 +119,22 @@ function getCocktailIDs(ingredientToSearch) {
             potentialID = potentialCocktailsObjectArray[j].cocktailID;
 
             if (thisID === potentialID) {
-              console.log("id found!");
+              // console.log("id found!");
               potentialCocktailsObjectArray[j].numTimesSearched++;
               IDFound = true;
               break;
             }
           }
           if (!IDFound) {
-            console.log("No ID Found");
+            // console.log("No ID Found");
             var cocktail = { cocktailID: thisID, numTimesSearched: 1 };
             potentialCocktailsObjectArray.push(cocktail);
           }
         }
       }
       //now we have an array containing the ID's of all the cocktails containing this ingredient
-      console.log(thisIngredientCocktailsIDArray);
-      console.log(potentialCocktailsObjectArray);
+      // console.log(thisIngredientCocktailsIDArray);
+      // console.log(potentialCocktailsObjectArray);
       // return potentialCocktailsObjectArray;
 
       // Now store somewhere we can check that object array on subsequent ingredient search
@@ -167,20 +167,20 @@ function cocktailIDArrayToObjectArray(cocktailIDArray, cocktailObjectArray) {
 //Index 0, 3, 4 are strings. Index 1 is a URL. Index 2 is an array of strings.
 function getCocktailRecipesFromID(cocktailID) {
   var queryURL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailID}`;
-  console.log("getCocktailRecipesFromID -> queryURL", queryURL);
+  // console.log("getCocktailRecipesFromID -> queryURL", queryURL);
   $.ajax({ url: queryURL, method: "GET" }).then(function (response) {
-    console.log(response);
+    // console.log(response);
 
     //this contains all the cocktail details
     var drinkDetails = response.drinks[0];
 
     //GET cocktail name
     var cocktailName = drinkDetails.strDrink;
-    console.log(cocktailName);
+    // console.log(cocktailName);
 
     //GET cocktail thumbnail Reference
     var cocktailThumbnailRef = drinkDetails.strDrinkThumb;
-    console.log(cocktailThumbnailRef);
+    // console.log(cocktailThumbnailRef);
 
     ////GET ingredients list
     var ingredientListArray = [];
@@ -199,21 +199,21 @@ function getCocktailRecipesFromID(cocktailID) {
       //check to make sure ingredient exists (else it's set to null)
       // if (drinkDetails[key] != null) {
       ingredientMeasurementArray.push(drinkDetails[key]);
-      // console.log(drinkDetails[key]);
+      // // console.log(drinkDetails[key]);
       // }
     }
 
     //BUILD array with Ingredient <-> measurement pairing in each element
     var ingredientsWithMeasuresArray = concatenateIngredientMeasures(ingredientListArray, ingredientMeasurementArray);
-    console.log(ingredientsWithMeasuresArray);
+    // console.log(ingredientsWithMeasuresArray);
 
     // GET Glass type
     var cocktailGlassType = drinkDetails.strGlass;
-    console.log(cocktailGlassType);
+    // console.log(cocktailGlassType);
 
     // GET instructions
     var cocktailInstructions = drinkDetails.strInstructions;
-    console.log(cocktailInstructions);
+    // console.log(cocktailInstructions);
 
     var cocktailDetails = [
       cocktailName,
@@ -222,7 +222,7 @@ function getCocktailRecipesFromID(cocktailID) {
       cocktailGlassType,
       cocktailInstructions,
     ];
-    console.log("getCocktailRecipesFromID -> cocktailDetails", cocktailDetails);
+    // console.log("getCocktailRecipesFromID -> cocktailDetails", cocktailDetails);
 
     //this function returns an array containing the above 6 values. Index 0, 3, 4 are strings. Index 1 is a URL. Index 2 is an array of strings.
     // return cocktailDetails;
@@ -255,6 +255,7 @@ function getCocktailRecipesFromID(cocktailID) {
           </div>
           `);
 
+    //TODO: Can't figure out how to get this UL to dynamically get itself looped into the inside of the card
     for (var i = 0; i < cocktailIngredients.length; i++) {
       newCocktailCardEl.append($(`<ul>${cocktailIngredients[i]}</ul>`));
     }
@@ -279,13 +280,13 @@ function removeIngredient(ingredientString, ingredientArray) {
   })
     // After the data comes back from the API
     .then(function (response) {
-      console.log("getCocktailIDs -> response", response);
+      // console.log("getCocktailIDs -> response", response);
       // This array will hold the ID's of all the cocktails that contain this ingredient
       var thisIngredientCocktailsIDArray = [];
 
       // This array holds the COCKTAIL OBJECTS for all cocktails matching user-inputted ingredients so far
       var potentialCocktailsObjectArray = JSON.parse(localStorage.getItem("potentialCocktailsObjectArray")) || [];
-      // console.log(ingredientArray)
+      // // console.log(ingredientArray)
 
       // We are expecting a large array of cocktails, each of which contains the searched ingredient as one of its ingredients
       var returnedDrinksArray = response.drinks;
@@ -303,15 +304,15 @@ function removeIngredient(ingredientString, ingredientArray) {
       // If one is found, decrement its numFound counter. (IT should find all of them!!)
       for (var i = 0; i < thisIngredientCocktailsIDArray.length; i++) {
         thisID = thisIngredientCocktailsIDArray[i];
-        // console.log("getCocktailIDs -> thisID", thisID)
-        // console.log("getCocktailIDs -> potentialCocktailsObjectArray", potentialCocktailsObjectArray)
+        // // console.log("getCocktailIDs -> thisID", thisID)
+        // // console.log("getCocktailIDs -> potentialCocktailsObjectArray", potentialCocktailsObjectArray)
         // var IDFound = false;
 
         for (var j = 0; j < potentialCocktailsObjectArray.length; j++) {
           potentialID = potentialCocktailsObjectArray[j].cocktailID;
 
           if (thisID === potentialID) {
-            console.log("id found!");
+            // console.log("id found!");
             potentialCocktailsObjectArray[j].numTimesSearched--;
             // IDFound = true
 
@@ -333,14 +334,14 @@ function sortCocktailObjectArray(localStorageKey) {
 
   sortedCocktailArray.sort((a, b) => (parseInt(b.numTimesSearched) > parseInt(a.numTimesSearched) ? 1 : -1));
   // sortedCocktailArray.sort((a, b) => b.cocktailID.localeCompare(a.cocktailID));
-  console.log(sortedCocktailArray);
+  // console.log(sortedCocktailArray);
   return sortedCocktailArray;
 }
 
 ////////////////FUNCTION:concatenates 2 arrays into string array
 function concatenateIngredientMeasures(ingredientArray, measurementsArray) {
-  console.log("concatenateIngredientMeasures -> measurementsArray", measurementsArray);
-  console.log("concatenateIngredientMeasures -> ingredientArray", ingredientArray);
+  // console.log("concatenateIngredientMeasures -> measurementsArray", measurementsArray);
+  // console.log("concatenateIngredientMeasures -> ingredientArray", ingredientArray);
   var ingredientsWithMeasuresArray = [];
   for (var i = 0; i < ingredientArray.length; i++) {
     if (measurementsArray[i]) {
@@ -354,8 +355,8 @@ function concatenateIngredientMeasures(ingredientArray, measurementsArray) {
 
 ////OBSOLETE////////////FUNCTION: for checking if a cocktail ingredients list is a complete subset of ingredients-on-hand///////////////////
 // function arrayContainsArray(superset, subset) {
-//     console.log("arrayContainsArray -> subset", subset)
-//     console.log("arrayContainsArray -> superset", superset)
+//     // console.log("arrayContainsArray -> subset", subset)
+//     // console.log("arrayContainsArray -> superset", superset)
 //     if (subset.length === 0) {
 //         return false;
 //     }
