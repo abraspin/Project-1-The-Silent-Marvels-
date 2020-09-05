@@ -1,65 +1,288 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
+
 <head>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/x.y.z/css/bulma.css" />
-    <link href="https://fonts.googleapis.com/css2?family=Krona+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="project2.css">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Welcome to MIXR</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="style.css">
 </head>
-<body>
-    <nav class="navbar" role="navigation" aria-label="dropdown navigation">
-        <a class="navbar-item">
-            <img src="https://thumbs.dreamstime.com/z/alcoholic-cocktails-logo-vector-icons-alcoholic-drinks-glass-126235753.jpg"
-                alt="Bulma: Free, open source, and modern CSS framework based on Flexbox" width="112" height="28">
-        </a>
-    
-        <div class="navbar-item has-dropdown is-active">
-            <a class="navbar-link">
-                Docs
-            </a>
-    
-            
+
+<nav class="navbar">
+    <div class="container">
+        <div class="navbar-brand"><a class="navbar-item" href="#">Call an Uber</a><a class="navbar-burger" role="button"
+                aria-label="menu" aria-expanded="false"><span aria-hidden="true"></span><span
+                    aria-hidden="true"></span><span aria-hidden="true"></span></a></div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="#">Navigate</a><a class="navbar-item" href="#">Purchase</a><a
+                    class="navbar-item" href="#">Random Cocktail</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">More</a>
+                    <div class="navbar-dropdown"><a class="navbar-item navbar-item-dropdown" href="#">Contact Us</a><a
+                            class="navbar-item navbar-item-dropdown" href="#">Support Us</a></div>
+                </div>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons"><a class="button is-light" href="#">Log in</a><a class="button is-primary"
+                            href="#">Sign up</a></div>
+                </div>
             </div>
         </div>
-    </nav>
-    
-    <section class="hero is-primary">
+    </div>
+</nav>
+
+<section class="hero">
+    <div class="hero-body">
+        <div class="container has-text-centered">
+
+            <h1 class="title">
+                <strong>Welcome to SHAKR</strong>
+            </h1>
+
+            <h2 class="subtitle is-spaced">
+                <strong>You've had one hell of a week. You're thirsty. And you're low on mixers.</strong>
+            </h2>
+
+            <h3 class="subtitle is-spaced">
+                Tell us what you have, and we'll tell you what you can make!
+            </h3>
+
+            <a href="#">See who else is Shakin' »</a>
+        </div>
+    </div>
+</section>
+
+<div class="container has-text-centered">
+    ~Advertisement Space or Logo Insert~</div>
+
+<body>
+
+    <section class="hero is-info">
         <div class="hero-body">
-            <p class="title">
-                Documentation
-            </p>
-            <p class="subtitle">
-                Everything you need to <strong>create a website</strong> with Bulma
-            </p>
+            <div class="container">
+                <div class="card">
+                    <div class="card-content">
+                        <div class="content">
+                            <div class="control has-icons-left has-icons-right">
+                                <input class="input is-large" type="search">
+                                <span class="icon is-medium is-left">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </span>
+                                <span class="icon is-medium is-right">
+                                    <i class="fa fa-empire" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </section>
+    <div class="box cta">
+        <div class="columns is-mobile is-centered">
+            <div class="field is-grouped is-grouped-multiline">
+                <div class="control"><span class="tag is-link is-large">Ingredient Icon 1</span></div>
+                <div class="control"><span class="tag is-success is-large">Ingredient Icon 2</span></div>
+                <div class="control"><span class="tag is-black is-large">Ingredient Icon 3</span></div>
+                <div class="control"><span class="tag is-warning is-large">Ingredient Icon 4</span></div>
+                <div class="control"><span class="tag is-danger is-large">Ingredient Icon 5</span></div>
+                <div class="control"><span class="tag is-info is-large">Ingredient Icon 6</span></div>
+            </div>
+        </div>
+    </div>
+    <section class="container">
+        <div class="level-item">
+            <div class="columns is-multiline is-centered cards-container" id="sectioncontainer">
+                <div class="column is-narrow">
+                    <article class="message is-black">
+                        <div class="message-header">
+                            <p>Cocktail 1</p>
+                            <button class="delete" aria-label="delete"></button>
+                        </div>
+                        <div class="message-body">
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 1</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 2</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 3</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 4</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 5</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 6</span></div>
+                            </div>
+                        </div>
+                    </article>
+                </div>
+                <div class="column is-narrow">
+                    <article class="message is-primary">
+                        <div class="message-header">
+                            <p>Cocktail 2</p>
+                            <button class="delete" aria-label="delete"></button>
+                        </div>
+                        <div class="message-body">
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 1</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 2</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 3</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 4</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 5</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 6</span></div>
+                            </div>
+                            <div class="board-item">
+                                <div class="board-item-content"><span>Ingredient Input 7</span></div>
+                            </div>
+                        </div>
+                </div>
+                </article>
+            </div>
+            <div class="column is-narrow">
+                <article class="message is-link">
+                    <div class="message-header">
+                        <p>Cocktail 3</p>
+                        <button class="delete" aria-label="delete"></button>
+                    </div>
+                    <div class="message-body">
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 1</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 2</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 3</span></div>
+                        </div>
 
-<img class="img1" src="https://i.pinimg.com/originals/dd/21/01/dd21017b967561b9f9001df786a6cd77.jpg" alt="">
-
-   <h1 class="tex">the love booze</h1>  
-       
- <div class="input">
-<input type="text" class="inputvalue" style="text-align: center;">
-<input type="submit" value="submit" class=" value" style="text-align: center;">
-
-
-
-<div class="container">
-    <div class="card">
-        <h1 class="name" id="name"></h1>
-        <p class="booz"></p>
-        <p class="types"></p>
-        <p class="desc"></p>
+                    </div>
+                </article>
+            </div>
+            <div class="column is-narrow">
+                <article class="message is-info">
+                    <div class="message-header">
+                        <p>Cocktail 4</p>
+                        <button class="delete" aria-label="delete"></button>
+                    </div>
+                    <div class="message-body">
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 1</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 2</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 3</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 4</span></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="column is-narrow">
+                <article class="message is-success">
+                    <div class="message-header">
+                        <p>Cocktail 5</p>
+                        <button class="delete" aria-label="delete"></button>
+                    </div>
+                    <div class="message-body">
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 1</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 2</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 3</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 4</span></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+            <div class="column is-narrow">
+                <article class="message is-warning">
+                    <div class="message-header">
+                        <p>Cocktail 6</p>
+                        <button class="delete" aria-label="delete"></button>
+                    </div>
+                    <div class="message-body">
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 1</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 2</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 3</span></div>
+                        </div>
+                        <div class="board-item">
+                            <div class="board-item-content"><span>Ingredient Input 4</span></div>
+                        </div>
+                    </div>
+                </article>
+            </div>
+        </div>
+        </div>
+    </section>
+    <div class="columns is-mobile is-centered">
+        <div class="column is-half is-narrow"></div>
     </div>
 
+    <div class="has-text-centered"><img
+            src="http://www.charlestonmusicconfab.com/wp-content/uploads/2014/12/TitosBanner.jpg" alt="#"> </div>
+
+    <footer class="footer">
+        <div class="container">
+            <div class="level">
+                <div class="level-left">
+                    <div class="level-item"><a class="title is-4" href="#">SHAKR</a></div>
+                </div>
+                <div class="level-right"><a class="level-item" href="#">Features</a><a class="level-item"
+                        href="#">Events</a><a class="level-item" href="#">Support</a><a class="level-item"
+                        href="#">Liquor Promotions</a></div>
+            </div>
+            <hr>
+            <div class="columns">
+                <div class="column">
+                    <div class="buttons"><a class="button" href="#"><img src="placeholder/icons/twitter.svg"
+                                alt=""></a><a class="button" href="#"><img src="placeholder/icons/facebook-f.svg"
+                                alt=""></a><a class="button" href="#"><img src="placeholder/icons/instagram.svg"
+                                alt=""></a></div>
+                </div>
+                <div class="column has-text-centered has-text-right-tablet">
+                    <p class="subtitle is-6">© 2020 Team Silent Marbles @University of Texas - Austin. All right
+                        reserved.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
 
 
+    <script src="../js/bulma.js"></script>
 
 
-
-
- </div>
 </body>
+
+
 </html>
