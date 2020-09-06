@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SHAKR Testimonials</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<nav class="navbar">
+    <div class="container">
+        <div class="navbar-brand"><a class="navbar-item" href="#">Call an Uber</a><a class="navbar-burger" role="button"
+                aria-label="menu" aria-expanded="false"><span aria-hidden="true"></span><span
+                    aria-hidden="true"></span><span aria-hidden="true"></span></a></div>
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="#">Navigate</a><a class="navbar-item" href="#">Purchase Ingredients</a><a
+                    class="navbar-item" href="#">Testimonials</a>
+                <div class="navbar-item has-dropdown is-hoverable">
+                    <a class="navbar-link">More</a>
+                    <div class="navbar-dropdown"><a class="navbar-item navbar-item-dropdown" href="#">Contact Us</a><a
+                            class="navbar-item navbar-item-dropdown" href="#">Support Us</a></div>
+                </div>
+            </div>
+            <div class="navbar-end">
+                <div class="navbar-item">
+                    <div class="buttons"><a class="button is-light" href="#">Log in</a><a class="button is-primary"
+                            href="#">Sign up</a></div>
+                </div>
+            </div>
+        </div>
+    </div>
+</nav>
+
+
+
+<section class="section">
+  <div class="container has-text-centered">
+    <div class="columns is-centered">
+      <div class="column is-5 is-4-desktop">
+        <form>
+          <div class="field">
+            <div class="control">
+              <input class="input" type="email" placeholder="Email">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input" type="text" placeholder="Name">
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <input class="input" type="password" placeholder="Password">
+            </div>
+          </div>
+          <div class="field is-grouped">
+            <div class="control is-expanded">
+              <button class="button is-primary is-outlined is-fullwidth">Sign In!</button>
+            </div>
+            <div class="control is-expanded">
+              <button class="button is-primary is-fullwidth">Sign up!</button>
+            </div>
+          </div>
+          <p>By signing in you agree with the <a href="#">Terms and Conditions</a> and <a href="#">Privacy Policy</a>.</p>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<footer class="footer">
+    <div class="container">
+        <div class="level">
+            <div class="level-left">
+                <div class="level-item"><a class="title is-4" href="#">SHAKR</a></div>
+            </div>
+            <div class="level-right"><a class="level-item" href="#">Features</a><a class="level-item"
+                    href="#">Events</a><a class="level-item" href="#">Support</a><a class="level-item"
+                    href="#">Liquor Promotions</a></div>
+        </div>
+        <hr>
+        <div class="columns">
+            <div class="column">
+                <div class="buttons"><a class="button" href="#"><img src="placeholder/icons/twitter.svg"
+                            alt=""></a><a class="button" href="#"><img src="placeholder/icons/facebook-f.svg"
+                            alt=""></a><a class="button" href="#"><img src="placeholder/icons/instagram.svg"
+                            alt=""></a></div>
+            </div>
+            <div class="column has-text-centered has-text-right-tablet">
+                <p class="subtitle is-6">© 2020 Team Silent Marvels @University of Texas - Austin. All right
+                    reserved.</p>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<script src="../js/bulma.js"></script>
