@@ -386,3 +386,39 @@ $(".modal-close").on("click", function() {
 $(".modal-background").on("click", function() {
   $(".modal").removeClass("is-active");
 });
+
+// This is the Maps Embed API key I (Ryan) set up through Google
+var apiKey = "AIzaSyBXaAKr4axxaUBPZXJD-cKQF9qtHVrzXe0";
+
+// Select the user input for each field on the modal
+$("#submit-button").on("click", function() {
+  event.preventDefault();
+  var searchFor = $('input[name="answer"]:checked').val();
+  console.log("Search for: " + searchFor);
+  var zipOnly = $("#zip-only").val();
+  if (zipOnly) {
+      console.log("ZIP Only: " + zipOnly);
+      // Build the query URL
+      // Search parameters start after the q= and use either + or %20 to escape spaces
+      var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${searchFor}+near+${zipOnly}`;
+      console.log("QueryURL: " + queryURL);
+  } else {
+      var address = $("#address").val().trim();
+      address = address.replace(/ /g, "+");
+      console.log("Address: " + address);
+      var city = $("#city").val().trim();
+      city = city.replace(/ /g, "+");
+      console.log("City: " + city);
+      var state = $("#state option:selected").val();
+      console.log("State: " + state);
+      var zip = $("#zip").val().trim();
+      console.log("Zip: " + zip);
+      // Build the query URL
+      // Search parameters start after the q= and use either + or %20 to escape spaces
+      var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${searchFor}+near+${address},${city},${state}+${zip}`;
+      console.log("QueryURL: " + queryURL);
+  };
+  $(".modal").removeClass("is-active");
+  var embedMap = $("#embed-map");
+  embedMap.attr("src", queryURL);
+});
