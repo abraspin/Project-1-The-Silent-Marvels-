@@ -69,7 +69,7 @@
                 <div class="card">
                     <div class="card-content">
                         <div class="content">
-                            <div class="control has-icons-left has-icons-right">
+                            <form id="ingredient-search-field" class="control has-icons-left has-icons-right">
                                 <input id="ingredient-search" class="input is-medium" type="search">
                                 <span class="icon is-medium is-left">
                                     <i class="fa fa-search" aria-hidden="false"></i>
@@ -79,7 +79,7 @@
                                 </span>
                                 <button id="ingredient-search-button" class="button"><i
                                         class='fa fa-search fa-lg'></i></button>
-                            </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -270,11 +270,7 @@
             <!-- Adding a button for the user to click to open modal and run bar google search -->
             <button class="button is-link" id="find-bar-button">Find me a bar or grocery store!</button>
             <hr>
-            <iframe id="embed-map"
-                width="450"
-                height="250"
-                frameborder="0" style="border:0"
-                allowfullscreen>
+            <iframe id="embed-map" width="450" height="250" frameborder="0" style="border:0" allowfullscreen>
             </iframe>
         </div>
     </div>
@@ -286,17 +282,19 @@
             <!-- Any other Bulma elements you want -->
             <div class="columns">
                 <div class="column">
-                    <p class="has-text-centered" style="color: white;">Rather someone else make your drink? Pick up additional or missing ingredients?</p>
-                    <p class="has-text-centered" style="color: white;">Search for either a bar or grocery store. &#40;select one&#41;</p>
+                    <p class="has-text-centered" style="color: white;">Rather someone else make your drink? Pick up
+                        additional or missing ingredients?</p>
+                    <p class="has-text-centered" style="color: white;">Search for either a bar or grocery store.
+                        &#40;select one&#41;</p>
                     <br>
                     <div class="control has-text-centered">
                         <label class="radio" style="color: white;">
-                          <input type="radio" name="answer" value="bars">
-                          Bar
+                            <input type="radio" name="answer" value="bars">
+                            Bar
                         </label>
                         <label class="radio" style="color: white;">
-                          <input type="radio" name="answer" value="grocery+store">
-                          Grocery Store
+                            <input type="radio" name="answer" value="grocery+store">
+                            Grocery Store
                         </label>
                     </div>
                     <br>

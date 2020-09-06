@@ -40,13 +40,25 @@ $(".delete").on("click", function (event) {
 });
 
 ///////////////////////////// EVENT LISTENER FOR ADDING NEW INGREDIENTS/////////////////////////////
-$("#ingredient-search-button").on("click", function (event) {
+// $("#ingredient-search-button").on("click", function (event) {
+//   event.preventDefault();
+//   var searchedIngredient = $("#ingredient-search").val();
+//   // console.log(searchedIngredient);
+//   getCocktailIDs(searchedIngredient);
+//   $("#ingredient-list-element").append(
+//     `<div style = 'width:200px' class="control"><span class="tag is-link is-large">${searchedIngredient}  <button class="delete is-large" aria-label="delete"></button> </span>     </div>`
+//   );
+//   // Clear the #ingredient-search field
+//   $("#ingredient-search").val("");
+// });
+
+$("#ingredient-search-field").on("submit", function (event) {
   event.preventDefault();
   var searchedIngredient = $("#ingredient-search").val();
-  // console.log(searchedIngredient);
+  console.log("I searched!");
   getCocktailIDs(searchedIngredient);
   $("#ingredient-list-element").append(
-    `<div class="control"><span class="tag is-link is-large">${searchedIngredient}</span></div>`
+    `<div  class="control"><span class="tag is-link is-large">${searchedIngredient}  <button class="delete is-large" aria-label="delete"></button> </span>     </div>`
   );
   // Clear the #ingredient-search field
   $("#ingredient-search").val("");
@@ -63,7 +75,7 @@ $("#ingredient-search-button").on("click", function (event) {
 // Then it checks those IDs against the existing array of cocktail objects in local storage (if it exists)
 // For each ID returned by the query: If it finds the ID in the existing array, it increments that cocktail's internal counter
 // If it doesn't find an ID in the existing array, it makes a new cocktail object and pushes it on.
-//TODO: adding the rendering logic...cause of the freaking ajax timing!!!
+//TODO: adding the rendering logic...cause of the freaking ajax timing!?!?
 function getCocktailIDs(ingredientToSearch) {
   // build the query url
   // multi-ingredient filter//
@@ -148,7 +160,7 @@ function getCocktailIDs(ingredientToSearch) {
       console.log("getCocktailIDs -> sortedCocktailObjectArray", sortedCocktailObjectArray);
 
       $("#cocktail-card-element").empty();
-      for (var i = 0; i < 5; i++) {
+      for (var i = 0; i < 10; i++) {
         getCocktailRecipesFromID(sortedCocktailObjectArray[i].cocktailID);
       }
     });
@@ -171,7 +183,7 @@ function getCocktailRecipesFromID(cocktailID) {
   var queryURL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailID}`;
   // console.log("getCocktailRecipesFromID -> queryURL", queryURL);
   $.ajax({ url: queryURL, method: "GET" }).then(function (response) {
-    // console.log(response);
+    console.log(response);
 
     //this contains all the cocktail details
     var drinkDetails = response.drinks[0];
@@ -207,7 +219,7 @@ function getCocktailRecipesFromID(cocktailID) {
 
     //BUILD array with Ingredient <-> measurement pairing in each element
     var ingredientsWithMeasuresArray = concatenateIngredientMeasures(ingredientListArray, ingredientMeasurementArray);
-    // console.log(ingredientsWithMeasuresArray);
+    console.log(ingredientsWithMeasuresArray);
 
     // GET Glass type
     var cocktailGlassType = drinkDetails.strGlass;
@@ -227,6 +239,7 @@ function getCocktailRecipesFromID(cocktailID) {
     // console.log("getCocktailRecipesFromID -> cocktailDetails", cocktailDetails);
 
     //this function returns an array containing the above 6 values. Index 0, 3, 4 are strings. Index 1 is a URL. Index 2 is an array of strings.
+    //FIXME: Actually I'm rendering the page right here...thanks to timing issues I think?
     // return cocktailDetails;
 
     var cocktailName = cocktailDetails[0];
@@ -234,6 +247,12 @@ function getCocktailRecipesFromID(cocktailID) {
     var cocktailIngredients = cocktailDetails[2];
     var cocktailGlass = cocktailDetails[3];
     var cocktailInstr = cocktailDetails[4];
+    var ingredienthtml = "";
+    //TODO: Can't figure out how to get this UL to dynamically get itself looped into the inside of the card
+    for (var i = 0; i < cocktailIngredients.length; i++) {
+      //   newCocktailCardEl.append($(`<ul>${cocktailIngredients[i]}</ul>`));
+      ingredienthtml += `<ul>${cocktailIngredients[i]}</ul>`;
+    }
 
     var newCocktailCardEl = $(`
         <div style = 'width: 300px' class="column is-narrow">
@@ -249,18 +268,16 @@ function getCocktailRecipesFromID(cocktailID) {
                       <div class="board-item">
                           <div class="board-item-content"><span>${cocktailGlass}</span></div>
                       </div>
+<div id ="ingredients-${cocktailName}"> ${ingredienthtml}</div>
                       <div class="board-item">
                       <div class="board-item-content"><span>${cocktailInstr}</span></div>
                   </div>
+              
+
                   </div>
               </article>
           </div>
           `);
-
-    //TODO: Can't figure out how to get this UL to dynamically get itself looped into the inside of the card
-    for (var i = 0; i < cocktailIngredients.length; i++) {
-      newCocktailCardEl.append($(`<ul>${cocktailIngredients[i]}</ul>`));
-    }
 
     $("#cocktail-card-element").append(newCocktailCardEl);
   });
@@ -367,23 +384,24 @@ function concatenateIngredientMeasures(ingredientArray, measurementsArray) {
 //     });
 // }
 
+//OBSOLETE// I added this to the cocktailID function or something
 function renderCocktailCard(name, thumbnailRef, ingredArray, glass, instructions) {
   // $(".container").append(` `)
 }
 
 // Toggle modal active by using click listener on find-bar-button
-$("#find-bar-button").on("click", function() {
+$("#find-bar-button").on("click", function () {
   event.preventDefault();
   $(".modal").addClass("is-active");
 });
 
 // Close modal using X in the corner
-$(".modal-close").on("click", function() {
+$(".modal-close").on("click", function () {
   $(".modal").removeClass("is-active");
 });
 
 // Close modal by being able to click on .modal-background to close the modal
-$(".modal-background").on("click", function() {
+$(".modal-background").on("click", function () {
   $(".modal").removeClass("is-active");
 });
 
@@ -391,33 +409,33 @@ $(".modal-background").on("click", function() {
 var apiKey = "AIzaSyBXaAKr4axxaUBPZXJD-cKQF9qtHVrzXe0";
 
 // Select the user input for each field on the modal
-$("#submit-button").on("click", function() {
+$("#submit-button").on("click", function () {
   event.preventDefault();
   var searchFor = $('input[name="answer"]:checked').val();
   console.log("Search for: " + searchFor);
   var zipOnly = $("#zip-only").val();
   if (zipOnly) {
-      console.log("ZIP Only: " + zipOnly);
-      // Build the query URL
-      // Search parameters start after the q= and use either + or %20 to escape spaces
-      var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${searchFor}+near+${zipOnly}`;
-      console.log("QueryURL: " + queryURL);
+    console.log("ZIP Only: " + zipOnly);
+    // Build the query URL
+    // Search parameters start after the q= and use either + or %20 to escape spaces
+    var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${searchFor}+near+${zipOnly}`;
+    console.log("QueryURL: " + queryURL);
   } else {
-      var address = $("#address").val().trim();
-      address = address.replace(/ /g, "+");
-      console.log("Address: " + address);
-      var city = $("#city").val().trim();
-      city = city.replace(/ /g, "+");
-      console.log("City: " + city);
-      var state = $("#state option:selected").val();
-      console.log("State: " + state);
-      var zip = $("#zip").val().trim();
-      console.log("Zip: " + zip);
-      // Build the query URL
-      // Search parameters start after the q= and use either + or %20 to escape spaces
-      var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${searchFor}+near+${address},${city},${state}+${zip}`;
-      console.log("QueryURL: " + queryURL);
-  };
+    var address = $("#address").val().trim();
+    address = address.replace(/ /g, "+");
+    console.log("Address: " + address);
+    var city = $("#city").val().trim();
+    city = city.replace(/ /g, "+");
+    console.log("City: " + city);
+    var state = $("#state option:selected").val();
+    console.log("State: " + state);
+    var zip = $("#zip").val().trim();
+    console.log("Zip: " + zip);
+    // Build the query URL
+    // Search parameters start after the q= and use either + or %20 to escape spaces
+    var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${searchFor}+near+${address},${city},${state}+${zip}`;
+    console.log("QueryURL: " + queryURL);
+  }
   $(".modal").removeClass("is-active");
   var embedMap = $("#embed-map");
   embedMap.attr("src", queryURL);
