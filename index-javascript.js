@@ -370,3 +370,19 @@ function concatenateIngredientMeasures(ingredientArray, measurementsArray) {
 function renderCocktailCard(name, thumbnailRef, ingredArray, glass, instructions) {
   // $(".container").append(` `)
 }
+
+// Toggle modal active by using click listener on find-bar-button
+$("#find-bar-button").on("click", function() {
+  event.preventDefault();
+  $(".modal").addClass("is-active");
+});
+
+// Close modal using X in the corner
+$(".modal-close").on("click", function() {
+  $(".modal").removeClass("is-active");
+});
+
+// Close modal by being able to click on .modal-background to close the modal
+$(".modal-background").on("click", function() {
+  $(".modal").removeClass("is-active");
+});
