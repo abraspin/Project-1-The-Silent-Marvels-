@@ -276,6 +276,112 @@
         </div>
     </div>
 
+    <!-- Modal for input of either user address or zipcode -->
+    <div class="modal">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+            <!-- Any other Bulma elements you want -->
+            <div class="columns">
+                <div class="column">
+                    <p class="has-text-centered" style="color: white;">Rather someone else make your drink? Pick up additional or missing ingredients?</p>
+                    <p class="has-text-centered" style="color: white;">Search for either a bar or grocery store. &#40;select one&#41;</p>
+                    <br>
+                    <div class="control has-text-centered">
+                        <label class="radio" style="color: white;">
+                          <input type="radio" name="answer" value="bars">
+                          Bar
+                        </label>
+                        <label class="radio" style="color: white;">
+                          <input type="radio" name="answer" value="grocery+store">
+                          Grocery Store
+                        </label>
+                    </div>
+                    <br>
+                    <p class="has-text-centered" style="color: white;">Please enter in either a zipcode or address.</p>
+                    <br>
+                    <input class="input" id="zip-only" type="number" placeholder="ZIP">
+                    <br>
+                    <br>
+                    <hr>
+                    <br>
+                    <input class="input" id="address" type="text" placeholder="Address">
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <input class="input" id="city" type="text" placeholder="City">
+                </div>
+                <div class="column">
+                    <!-- <input class="input" id="state" type="text" placeholder="State"> -->
+                    <div class="select" id="state">
+                        <select>
+                            <option>Select State</option>
+                            <option>AL</option>
+                            <option>AK</option>
+                            <option>AZ</option>
+                            <option>AR</option>
+                            <option>CA</option>
+                            <option>CO</option>
+                            <option>CT</option>
+                            <option>DE</option>
+                            <option>FL</option>
+                            <option>GA</option>
+                            <option>HI</option>
+                            <option>ID</option>
+                            <option>IL</option>
+                            <option>IN</option>
+                            <option>IA</option>
+                            <option>KS</option>
+                            <option>KY</option>
+                            <option>LA</option>
+                            <option>ME</option>
+                            <option>MD</option>
+                            <option>MA</option>
+                            <option>MI</option>
+                            <option>MN</option>
+                            <option>MS</option>
+                            <option>MO</option>
+                            <option>MT</option>
+                            <option>NE</option>
+                            <option>NV</option>
+                            <option>NH</option>
+                            <option>NJ</option>
+                            <option>NM</option>
+                            <option>NY</option>
+                            <option>NC</option>
+                            <option>ND</option>
+                            <option>OH</option>
+                            <option>OK</option>
+                            <option>OR</option>
+                            <option>PA</option>
+                            <option>RI</option>
+                            <option>SC</option>
+                            <option>SD</option>
+                            <option>TN</option>
+                            <option>TX</option>
+                            <option>UT</option>
+                            <option>VT</option>
+                            <option>VA</option>
+                            <option>WA</option>
+                            <option>WV</option>
+                            <option>WI</option>
+                            <option>WY</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="column">
+                    <input class="input" id="zip" type="number" placeholder="ZIP">
+                </div>
+            </div>
+            <div class="columns">
+                <div class="column">
+                    <button class="button" id="submit-button">Submit</button>
+                </div>
+            </div>
+        </div>
+        <button class="modal-close is-large" aria-label="close"></button>
+    </div>
+
     <footer class="footer">
         <!-- <div class="container">
             <div class="level">
