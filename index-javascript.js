@@ -48,6 +48,8 @@ $("#ingredient-search-button").on("click", function (event) {
   $("#ingredient-list-element").append(
     `<div class="control"><span class="tag is-link is-large">${searchedIngredient}</span></div>`
   );
+  // Clear the #ingredient-search field
+  $("#ingredient-search").val("");
 });
 
 //////////////////////////////////////////////////////////////////////////////////////////
