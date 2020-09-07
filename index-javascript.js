@@ -2,7 +2,9 @@ $(document).ready(function () {
   localStorage.setItem("potentialCocktailsObjectArray", "[]");
 });
 
+
 //// variable declarations
+
 
 $(".delete").on("click", function (event) {
   // console.log(event.currentTarget.classList[1]);
@@ -10,6 +12,7 @@ $(".delete").on("click", function (event) {
 });
 
 ///////////////////////////// EVENT LISTENER FOR ADDING NEW INGREDIENTS/////////////////////////////
+
 
 $("#ingredient-search-field").on("submit", function (event) {
   event.preventDefault();
@@ -54,6 +57,7 @@ function getCocktailIDs(ingredientToSearch) {
       // console.log("getCocktailIDs -> response", response);
       // This array will hold the ID's of all the cocktails that contain this ingredient
 
+
       // This array holds the ID's for all the cocktails matching the searched ingredient
       var thisIngredientCocktailsIDArray = [];
 
@@ -76,8 +80,10 @@ function getCocktailIDs(ingredientToSearch) {
       if (potentialCocktailsObjectArray.length === 0) {
         // console.log("no previous cocktail object array found");
 
+
         // function that loops through thisIngredientCocktailsID Array and adds each to a new cocktail object
         // and appends to potentialCocktailsObject Array
+
         cocktailIDArrayToObjectArray(thisIngredientCocktailsIDArray, potentialCocktailsObjectArray);
         // console.log(potentialCocktailsObjectArray);
       } else {
@@ -203,6 +209,7 @@ function getCocktailRecipesFromID(cocktailID) {
 
     // Actually I'm rendering the page right here...thanks to timing issues I think?
 
+
     var cocktailName = cocktailDetails[0];
     var cocktailThumbRef = cocktailDetails[1];
     var cocktailIngredients = cocktailDetails[2];
@@ -211,6 +218,7 @@ function getCocktailRecipesFromID(cocktailID) {
     var ingredienthtml = "";
 
     for (var i = 0; i < cocktailIngredients.length; i++) {
+
       ingredienthtml += `<ul>${cocktailIngredients[i]}</ul>`;
     }
 
@@ -236,6 +244,7 @@ function getCocktailRecipesFromID(cocktailID) {
         </div>
     </article>
     </div>
+
           `);
 
     $("#cocktail-card-element").append(newCocktailCardEl);
@@ -311,6 +320,7 @@ function sortCocktailObjectArray(localStorageKey) {
   sortedCocktailArray = JSON.parse(localStorage.getItem(localStorageKey)) || [];
 
   sortedCocktailArray.sort((a, b) => (parseInt(b.numTimesSearched) > parseInt(a.numTimesSearched) ? 1 : -1));
+  
   // console.log(sortedCocktailArray);
   return sortedCocktailArray;
 }
@@ -331,6 +341,7 @@ function concatenateIngredientMeasures(ingredientArray, measurementsArray) {
 }
 
 ///////////////////////////////////CODE FOR MAPS API FUNCTIONALITY AND MODAL////////////////////////
+
 
 // Toggle modal active by using click listener on find-bar-button
 $("#find-bar-button").on("click", function () {
@@ -382,6 +393,8 @@ $("#submit-button").on("click", function () {
   $(".modal").removeClass("is-active");
   var embedMap = $("#embed-map");
   embedMap.attr("src", queryURL);
+
   // Display map on page
   $("#map-section").attr("style", "");
+
 });
