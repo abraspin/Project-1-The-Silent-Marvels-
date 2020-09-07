@@ -81,12 +81,18 @@
         </div>
     </section>
 
-    <!-- Map Embed API - src setting dynamically from JavaScript -->
+    <!-- Adding a button for the user to click to open modal and run bar google search -->
     <div class="columns is-centered">
         <div class="column is-half has-text-centered">
             <!-- Adding a button for the user to click to open modal and run bar google search -->
             <button class="button is-link" id="find-bar-button">Find me a bar or grocery
                 store!</button>
+        </div>
+    </div>
+
+    <!-- Map Embed API - src setting dynamically from JavaScript -->
+    <div class="columns is-centered" id="map-section" style="display: none;">
+        <div class="column is-half has-text-centered">
             <hr>
             <iframe id="embed-map" width="450" height="250" frameborder="0" style="border:0" allowfullscreen>
             </iframe>
