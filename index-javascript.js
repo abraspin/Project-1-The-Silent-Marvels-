@@ -250,7 +250,6 @@ function getCocktailRecipesFromID(cocktailID) {
     <article class="message is-link">
         <div class="message-header">
             <p>${cocktailName}</p>
-            <button class="delete" aria-label="delete"></button>
         </div>
         <div class="message-body">
             <div class="board-item">
