@@ -1,10 +1,15 @@
 $(document).ready(function () {
+  // clear the local storage cocktail object array on page load
   localStorage.setItem("potentialCocktailsObjectArray", "[]");
-});
 
+  // Clear the #ingredient-search field on page load
+  $("#ingredient-search").val("");
+});
 
 //// variable declarations
 
+//this will hold all previously searched ingredients
+var searchedIngredientStrings = [];
 
 $(".delete").on("click", function (event) {
   // console.log(event.currentTarget.classList[1]);
@@ -13,15 +18,24 @@ $(".delete").on("click", function (event) {
 
 ///////////////////////////// EVENT LISTENER FOR ADDING NEW INGREDIENTS/////////////////////////////
 
-
 $("#ingredient-search-field").on("submit", function (event) {
   event.preventDefault();
+  console.log("hi");
+  // grab searched ingredient string from search field
   var searchedIngredient = $("#ingredient-search").val();
-  console.log("I searched!");
+  //  use homemade capitalization function
+  searchedIngredient = capitalize(searchedIngredient);
+  // check to make sure it hasn't been searched yet this session, if so return early.
+  if (searchedIngredientStrings.indexOf(searchedIngredient) >= 0) {
+    return;
+  }
+  //  run cocktail API call and HTML render
   getCocktailIDs(searchedIngredient);
+  // add this string to the page, and to an array to keep trak
   $("#ingredient-list-element").append(
     `<div  class="control"><span class="tag is-link is-large">${searchedIngredient}  <button class="delete is-large" aria-label="delete"></button> </span>     </div>`
   );
+  searchedIngredientStrings.push(searchedIngredient);
 
   // Clear the #ingredient-search field
   $("#ingredient-search").val("");
@@ -57,7 +71,6 @@ function getCocktailIDs(ingredientToSearch) {
       // console.log("getCocktailIDs -> response", response);
       // This array will hold the ID's of all the cocktails that contain this ingredient
 
-
       // This array holds the ID's for all the cocktails matching the searched ingredient
       var thisIngredientCocktailsIDArray = [];
 
@@ -79,7 +92,6 @@ function getCocktailIDs(ingredientToSearch) {
       // This checks to see if the potential cocktails ID array is empty (i.e. no ingredients have been searched yet)
       if (potentialCocktailsObjectArray.length === 0) {
         // console.log("no previous cocktail object array found");
-
 
         // function that loops through thisIngredientCocktailsID Array and adds each to a new cocktail object
         // and appends to potentialCocktailsObject Array
@@ -209,7 +221,6 @@ function getCocktailRecipesFromID(cocktailID) {
 
     // Actually I'm rendering the page right here...thanks to timing issues I think?
 
-
     var cocktailName = cocktailDetails[0];
     var cocktailThumbRef = cocktailDetails[1];
     var cocktailIngredients = cocktailDetails[2];
@@ -218,7 +229,6 @@ function getCocktailRecipesFromID(cocktailID) {
     var ingredienthtml = "";
 
     for (var i = 0; i < cocktailIngredients.length; i++) {
-
       ingredienthtml += `<ul>${cocktailIngredients[i]}</ul>`;
     }
 
@@ -320,7 +330,7 @@ function sortCocktailObjectArray(localStorageKey) {
   sortedCocktailArray = JSON.parse(localStorage.getItem(localStorageKey)) || [];
 
   sortedCocktailArray.sort((a, b) => (parseInt(b.numTimesSearched) > parseInt(a.numTimesSearched) ? 1 : -1));
-  
+
   // console.log(sortedCocktailArray);
   return sortedCocktailArray;
 }
@@ -340,8 +350,17 @@ function concatenateIngredientMeasures(ingredientArray, measurementsArray) {
   return ingredientsWithMeasuresArray;
 }
 
-///////////////////////////////////CODE FOR MAPS API FUNCTIONALITY AND MODAL////////////////////////
+// function to capitalize the first letter of a string, to be used on searched ingredients.
+// Returns passed-in string but with first character capitalized.
+const capitalize = (str) => {
+  if (typeof str === "string") {
+    return str.replace(/^\w/, (c) => c.toUpperCase());
+  } else {
+    return "";
+  }
+};
 
+///////////////////////////////////CODE FOR MAPS API FUNCTIONALITY AND MODAL////////////////////////
 
 // Toggle modal active by using click listener on find-bar-button
 $("#find-bar-button").on("click", function () {
@@ -396,5 +415,4 @@ $("#submit-button").on("click", function () {
 
   // Display map on page
   $("#map-section").attr("style", "");
-
 });
