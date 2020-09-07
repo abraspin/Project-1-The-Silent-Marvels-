@@ -3,6 +3,7 @@ $(document).ready(function () {
   localStorage.setItem("potentialCocktailsObjectArray", "[]");
 
   // Clear the #ingredient-search field on page load
+
   $("#ingredient-search").val("");
 });
 
@@ -18,7 +19,25 @@ $(".delete").on("click", function (event) {
 
 ///////////////////////////// EVENT LISTENER FOR ADDING NEW INGREDIENTS/////////////////////////////
 
+// when the ingredient is submitted with "Enter key"
 $("#ingredient-search-field").on("submit", function (event) {
+  ingredientSearch(event);
+});
+
+//When the ingredient is submitted with the "Click search button"
+$("#search-button").on("click", function (event) {
+  ingredientSearch(event);
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS///////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////This function runs the ajax call functions, renders the page, and updates ingredient lists.
+// It is found in both the search submit event, and also the click search submit
+function ingredientSearch(event) {
   event.preventDefault();
   console.log("hi");
   // grab searched ingredient string from search field
@@ -39,13 +58,7 @@ $("#ingredient-search-field").on("submit", function (event) {
 
   // Clear the #ingredient-search field
   $("#ingredient-search").val("");
-});
-
-//////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS///////
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+}
 
 ////////////////////////this function returns potentialCocktailsObjectArray
 // This function takes an ingredient string and queries the docktailDB for an array of cocktail IDs.
