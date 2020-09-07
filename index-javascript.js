@@ -17,8 +17,9 @@ $(".delete").on("click", function (event) {
   removeIngredient(event.currentTarget.classList[1], localStorage.getItem("potentialCocktailsObjectArray"));
 });
 
-///////////////////////////// EVENT LISTENER FOR ADDING NEW INGREDIENTS/////////////////////////////
+///////////////////////////// EVENT LISTENERS /////////////////////////////
 
+/////////////////////////////////FOR ADDING NEW INGREDIENTS////////////////////
 // when the ingredient is submitted with "Enter key"
 $("#ingredient-search-field").on("submit", function (event) {
   ingredientSearch(event);
@@ -29,8 +30,11 @@ $("#search-button").on("click", function (event) {
   ingredientSearch(event);
 });
 
-//////////////////////////////////////////////////////////////////////////////////////////
-
+//////////////////////////////FOR DELETING SEARCHED INGREDIENTS////////////////////////////////////////
+$("button").on("click", function (event) {
+  event.preventDefault();
+  console.log("delete!");
+});
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS///////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -39,13 +43,13 @@ $("#search-button").on("click", function (event) {
 // It is found in both the search submit event, and also the click search submit
 function ingredientSearch(event) {
   event.preventDefault();
-  console.log("hi");
   // grab searched ingredient string from search field
   var searchedIngredient = $("#ingredient-search").val();
   //  use homemade capitalization function
   searchedIngredient = capitalize(searchedIngredient);
-  // check to make sure it hasn't been searched yet this session, if so return early.
-  if (searchedIngredientStrings.indexOf(searchedIngredient) >= 0) {
+
+  // check to make sure it hasn't been searched yet this session, or if it's empty string, if so return early.
+  if (searchedIngredientStrings.indexOf(searchedIngredient) >= 0 || !searchedIngredient) {
     return;
   }
   //  run cocktail API call and HTML render
