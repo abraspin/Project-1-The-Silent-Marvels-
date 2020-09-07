@@ -1,10 +1,12 @@
 $(document).ready(function () {
+  //clear local storage cocktail object array
   localStorage.setItem("potentialCocktailsObjectArray", "[]");
+
+  // clear search form from previous page reload.
+  $("#ingredient-search").val("");
 });
 
-
 //// variable declarations
-
 
 $(".delete").on("click", function (event) {
   // console.log(event.currentTarget.classList[1]);
@@ -13,8 +15,25 @@ $(".delete").on("click", function (event) {
 
 ///////////////////////////// EVENT LISTENER FOR ADDING NEW INGREDIENTS/////////////////////////////
 
-
+// when the ingredient is submitted with "Enter key"
 $("#ingredient-search-field").on("submit", function (event) {
+  ingredientSearch(event);
+});
+
+//When the ingredient is submitted with the "Click search button"
+$("#search-button").on("click", function (event) {
+  ingredientSearch(event);
+});
+
+//////////////////////////////////////////////////////////////////////////////////////////
+
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+///////////FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS///////
+////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+//////////////////////This function runs the ajax call functions, renders the page, and updates ingredient lists.
+// It is found in both the search submit event, and also the click search submit
+function ingredientSearch(event) {
   event.preventDefault();
   var searchedIngredient = $("#ingredient-search").val();
   console.log("I searched!");
@@ -25,13 +44,7 @@ $("#ingredient-search-field").on("submit", function (event) {
 
   // Clear the #ingredient-search field
   $("#ingredient-search").val("");
-});
-
-//////////////////////////////////////////////////////////////////////////////////////////
-
-////////////////////////////////////////////////////////////////////////////////////////////////////////
-///////////FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS///////
-////////////////////////////////////////////////////////////////////////////////////////////////////////
+}
 
 ////////////////////////this function returns potentialCocktailsObjectArray
 // This function takes an ingredient string and queries the docktailDB for an array of cocktail IDs.
@@ -57,7 +70,6 @@ function getCocktailIDs(ingredientToSearch) {
       // console.log("getCocktailIDs -> response", response);
       // This array will hold the ID's of all the cocktails that contain this ingredient
 
-
       // This array holds the ID's for all the cocktails matching the searched ingredient
       var thisIngredientCocktailsIDArray = [];
 
@@ -79,7 +91,6 @@ function getCocktailIDs(ingredientToSearch) {
       // This checks to see if the potential cocktails ID array is empty (i.e. no ingredients have been searched yet)
       if (potentialCocktailsObjectArray.length === 0) {
         // console.log("no previous cocktail object array found");
-
 
         // function that loops through thisIngredientCocktailsID Array and adds each to a new cocktail object
         // and appends to potentialCocktailsObject Array
@@ -209,7 +220,6 @@ function getCocktailRecipesFromID(cocktailID) {
 
     // Actually I'm rendering the page right here...thanks to timing issues I think?
 
-
     var cocktailName = cocktailDetails[0];
     var cocktailThumbRef = cocktailDetails[1];
     var cocktailIngredients = cocktailDetails[2];
@@ -218,7 +228,6 @@ function getCocktailRecipesFromID(cocktailID) {
     var ingredienthtml = "";
 
     for (var i = 0; i < cocktailIngredients.length; i++) {
-
       ingredienthtml += `<ul>${cocktailIngredients[i]}</ul>`;
     }
 
@@ -320,7 +329,7 @@ function sortCocktailObjectArray(localStorageKey) {
   sortedCocktailArray = JSON.parse(localStorage.getItem(localStorageKey)) || [];
 
   sortedCocktailArray.sort((a, b) => (parseInt(b.numTimesSearched) > parseInt(a.numTimesSearched) ? 1 : -1));
-  
+
   // console.log(sortedCocktailArray);
   return sortedCocktailArray;
 }
@@ -341,7 +350,6 @@ function concatenateIngredientMeasures(ingredientArray, measurementsArray) {
 }
 
 ///////////////////////////////////CODE FOR MAPS API FUNCTIONALITY AND MODAL////////////////////////
-
 
 // Toggle modal active by using click listener on find-bar-button
 $("#find-bar-button").on("click", function () {
@@ -396,5 +404,4 @@ $("#submit-button").on("click", function () {
 
   // Display map on page
   $("#map-section").attr("style", "");
-
 });
