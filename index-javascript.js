@@ -2,37 +2,9 @@ $(document).ready(function () {
   localStorage.setItem("potentialCocktailsObjectArray", "[]");
 });
 
-// Example cocktail object
-// var cocktail = {
-//     numTimesSearched = # of times this recipe has been found by ingredient searches,
-//    cocktailID: "cocktail name" }
 
 //// variable declarations
-//our upgraded Patreon API key (not actually necessary it turns out...oops!)
-advancedAPIKey = "9973533";
 
-///////////////////////////////TESTER CODE ///////////////////////////////////////////////////////////
-
-// tester buttons for multiple ajax calls
-$("#gin").on("click", function (event) {
-  getCocktailIDs("gin");
-});
-
-$("#vodka").on("click", function (event) {
-  getCocktailIDs("vodka");
-});
-$("#triple_sec").on("click", function (event) {
-  getCocktailIDs("triple_sec");
-});
-$("#lemon_juice").on("click", function (event) {
-  getCocktailIDs("lemon_juice");
-});
-$("#sort-object-array").on("click", function (event) {
-  sortCocktailObjectArray("potentialCocktailsObjectArray");
-});
-$("#cocktail-id").on("click", function (event) {
-  getCocktailRecipesFromID("14366");
-});
 
 $(".delete").on("click", function (event) {
   // console.log(event.currentTarget.classList[1]);
@@ -40,17 +12,7 @@ $(".delete").on("click", function (event) {
 });
 
 ///////////////////////////// EVENT LISTENER FOR ADDING NEW INGREDIENTS/////////////////////////////
-// $("#ingredient-search-button").on("click", function (event) {
-//   event.preventDefault();
-//   var searchedIngredient = $("#ingredient-search").val();
-//   // console.log(searchedIngredient);
-//   getCocktailIDs(searchedIngredient);
-//   $("#ingredient-list-element").append(
-//     `<div style = 'width:200px' class="control"><span class="tag is-link is-large">${searchedIngredient}  <button class="delete is-large" aria-label="delete"></button> </span>     </div>`
-//   );
-//   // Clear the #ingredient-search field
-//   $("#ingredient-search").val("");
-// });
+
 
 $("#ingredient-search-field").on("submit", function (event) {
   event.preventDefault();
@@ -60,6 +22,7 @@ $("#ingredient-search-field").on("submit", function (event) {
   $("#ingredient-list-element").append(
     `<div  class="control"><span class="tag is-link is-large">${searchedIngredient}  <button class="delete is-large" aria-label="delete"></button> </span>     </div>`
   );
+
   // Clear the #ingredient-search field
   $("#ingredient-search").val("");
 });
@@ -94,7 +57,6 @@ function getCocktailIDs(ingredientToSearch) {
       // console.log("getCocktailIDs -> response", response);
       // This array will hold the ID's of all the cocktails that contain this ingredient
 
-      //FIXME: var thisIngredientCocktailsIDArray = JSON.parse(localStorage.getItem(potentialCocktailsObjectArray)) || []
 
       // This array holds the ID's for all the cocktails matching the searched ingredient
       var thisIngredientCocktailsIDArray = [];
@@ -117,8 +79,11 @@ function getCocktailIDs(ingredientToSearch) {
       // This checks to see if the potential cocktails ID array is empty (i.e. no ingredients have been searched yet)
       if (potentialCocktailsObjectArray.length === 0) {
         // console.log("no previous cocktail object array found");
+
+
         // function that loops through thisIngredientCocktailsID Array and adds each to a new cocktail object
-        // and appeneds to potentialCocktailsObject Array
+        // and appends to potentialCocktailsObject Array
+
         cocktailIDArrayToObjectArray(thisIngredientCocktailsIDArray, potentialCocktailsObjectArray);
         // console.log(potentialCocktailsObjectArray);
       } else {
@@ -165,6 +130,7 @@ function getCocktailIDs(ingredientToSearch) {
       }
     });
 }
+
 ///////////////FUNCTION - add an array of cocktail ID's to an array of cocktail objects
 // to be used ONLY when no cocktailObjectArray exists in local storage
 function cocktailIDArrayToObjectArray(cocktailIDArray, cocktailObjectArray) {
@@ -239,8 +205,10 @@ function getCocktailRecipesFromID(cocktailID) {
     // console.log("getCocktailRecipesFromID -> cocktailDetails", cocktailDetails);
 
     //this function returns an array containing the above 6 values. Index 0, 3, 4 are strings. Index 1 is a URL. Index 2 is an array of strings.
-    //FIXME: Actually I'm rendering the page right here...thanks to timing issues I think?
     // return cocktailDetails;
+
+    // Actually I'm rendering the page right here...thanks to timing issues I think?
+
 
     var cocktailName = cocktailDetails[0];
     var cocktailThumbRef = cocktailDetails[1];
@@ -248,35 +216,35 @@ function getCocktailRecipesFromID(cocktailID) {
     var cocktailGlass = cocktailDetails[3];
     var cocktailInstr = cocktailDetails[4];
     var ingredienthtml = "";
-    //TODO: Can't figure out how to get this UL to dynamically get itself looped into the inside of the card
+
     for (var i = 0; i < cocktailIngredients.length; i++) {
-      //   newCocktailCardEl.append($(`<ul>${cocktailIngredients[i]}</ul>`));
+
       ingredienthtml += `<ul>${cocktailIngredients[i]}</ul>`;
     }
 
     var newCocktailCardEl = $(`
-        <div style = 'width: 300px' class="column is-narrow">
-              <article class="message is-link">
-                  <div class="message-header">
-                      <p>${cocktailName}</p>
-                      <button class="delete" aria-label="delete"></button>
-                  </div>
-                  <div class="message-body">
-                      <div class="board-item">
-                          <div class="board-item-content"><img src="${cocktailThumbRef}" alt="cocktail-thumb" width="100" height="150"> </div>
-                      </div>
-                      <div class="board-item">
-                          <div class="board-item-content"><span>${cocktailGlass}</span></div>
-                      </div>
-<div id ="ingredients-${cocktailName}"> ${ingredienthtml}</div>
-                      <div class="board-item">
-                      <div class="board-item-content"><span>${cocktailInstr}</span></div>
-                  </div>
-              
+    <div style='width: 300px' class="column is-narrow">
+    <article class="message is-link">
+        <div class="message-header">
+            <p>${cocktailName}</p>
+            <button class="delete" aria-label="delete"></button>
+        </div>
+        <div class="message-body">
+            <div class="board-item">
+                <div class="board-item-content"><img src="${cocktailThumbRef}" alt="cocktail-thumb" width="100"
+                        height="150"> </div>
+            </div>
+            <div class="board-item">
+                <div class="board-item-content"><span>${cocktailGlass}</span></div>
+            </div>
+            <div id="ingredients-${cocktailName}"> ${ingredienthtml}</div>
+            <div class="board-item">
+                <div class="board-item-content"><span>${cocktailInstr}</span></div>
+            </div>
+        </div>
+    </article>
+    </div>
 
-                  </div>
-              </article>
-          </div>
           `);
 
     $("#cocktail-card-element").append(newCocktailCardEl);
@@ -352,7 +320,7 @@ function sortCocktailObjectArray(localStorageKey) {
   sortedCocktailArray = JSON.parse(localStorage.getItem(localStorageKey)) || [];
 
   sortedCocktailArray.sort((a, b) => (parseInt(b.numTimesSearched) > parseInt(a.numTimesSearched) ? 1 : -1));
-  // sortedCocktailArray.sort((a, b) => b.cocktailID.localeCompare(a.cocktailID));
+  
   // console.log(sortedCocktailArray);
   return sortedCocktailArray;
 }
@@ -372,22 +340,8 @@ function concatenateIngredientMeasures(ingredientArray, measurementsArray) {
   return ingredientsWithMeasuresArray;
 }
 
-////OBSOLETE////////////FUNCTION: for checking if a cocktail ingredients list is a complete subset of ingredients-on-hand///////////////////
-// function arrayContainsArray(superset, subset) {
-//     // console.log("arrayContainsArray -> subset", subset)
-//     // console.log("arrayContainsArray -> superset", superset)
-//     if (subset.length === 0) {
-//         return false;
-//     }
-//     return subset.every(function (value) {
-//         return (superset.indexOf(value) >= 0);
-//     });
-// }
+///////////////////////////////////CODE FOR MAPS API FUNCTIONALITY AND MODAL////////////////////////
 
-//OBSOLETE// I added this to the cocktailID function or something
-function renderCocktailCard(name, thumbnailRef, ingredArray, glass, instructions) {
-  // $(".container").append(` `)
-}
 
 // Toggle modal active by using click listener on find-bar-button
 $("#find-bar-button").on("click", function () {
@@ -439,4 +393,8 @@ $("#submit-button").on("click", function () {
   $(".modal").removeClass("is-active");
   var embedMap = $("#embed-map");
   embedMap.attr("src", queryURL);
+
+  // Display map on page
+  $("#map-section").attr("style", "");
+
 });
