@@ -1,12 +1,16 @@
 $(document).ready(function () {
-  //clear local storage cocktail object array
+  // clear the local storage cocktail object array on page load
   localStorage.setItem("potentialCocktailsObjectArray", "[]");
 
-  // clear search form from previous page reload.
+  // Clear the #ingredient-search field on page load
+
   $("#ingredient-search").val("");
 });
 
 //// variable declarations
+
+//this will hold all previously searched ingredients
+var searchedIngredientStrings = [];
 
 $(".delete").on("click", function (event) {
   // console.log(event.currentTarget.classList[1]);
@@ -35,12 +39,22 @@ $("#search-button").on("click", function (event) {
 // It is found in both the search submit event, and also the click search submit
 function ingredientSearch(event) {
   event.preventDefault();
+  console.log("hi");
+  // grab searched ingredient string from search field
   var searchedIngredient = $("#ingredient-search").val();
-  console.log("I searched!");
+  //  use homemade capitalization function
+  searchedIngredient = capitalize(searchedIngredient);
+  // check to make sure it hasn't been searched yet this session, if so return early.
+  if (searchedIngredientStrings.indexOf(searchedIngredient) >= 0) {
+    return;
+  }
+  //  run cocktail API call and HTML render
   getCocktailIDs(searchedIngredient);
+  // add this string to the page, and to an array to keep trak
   $("#ingredient-list-element").append(
     `<div  class="control"><span class="tag is-link is-large">${searchedIngredient}  <button class="delete is-large" aria-label="delete"></button> </span>     </div>`
   );
+  searchedIngredientStrings.push(searchedIngredient);
 
   // Clear the #ingredient-search field
   $("#ingredient-search").val("");
@@ -348,6 +362,16 @@ function concatenateIngredientMeasures(ingredientArray, measurementsArray) {
   }
   return ingredientsWithMeasuresArray;
 }
+
+// function to capitalize the first letter of a string, to be used on searched ingredients.
+// Returns passed-in string but with first character capitalized.
+const capitalize = (str) => {
+  if (typeof str === "string") {
+    return str.replace(/^\w/, (c) => c.toUpperCase());
+  } else {
+    return "";
+  }
+};
 
 ///////////////////////////////////CODE FOR MAPS API FUNCTIONALITY AND MODAL////////////////////////
 
