@@ -382,4 +382,6 @@ $("#submit-button").on("click", function () {
   $(".modal").removeClass("is-active");
   var embedMap = $("#embed-map");
   embedMap.attr("src", queryURL);
+  // Display map on page
+  $("#map-section").attr("style", "");
 });
