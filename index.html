@@ -22,9 +22,10 @@
         <div class="hero-body">
             <div class="container has-text-centered">
 
-                <h1 class="title">
+                <h1 class="title is-1">
                     <strong>Welcome to SHAKR</strong>
                 </h1>
+                <br>
 
 
                 <h2 class="subtitle is-spaced">
@@ -35,8 +36,21 @@
                     Tell us what you have, and we'll tell you what you can make!
                 </h3>
 
+                <br>
+                <h6 class="subtitle is-6 mb-2 is-spaced">
+                    Don't have what you need or would rather someone else make your drink?
+                </h6>
+
+                <!-- Adding a button for the user to click to open modal and run bar google search -->
+                <div class="columns is-centered">
+                    <div class="column is-half has-text-centered">
+                        <button class="button is-link" id="find-bar-button">Find me a grocery store or bar!</button>
+                    </div>
+                </div>
+
                 <!-- <a href="#">See who else is Shakin' »</a> -->
             </div>
+
         </div>
     </section>
 
@@ -93,15 +107,6 @@
         </div>
     </section>
 
-    <!-- Adding a button for the user to click to open modal and run bar google search -->
-    <div class="columns is-centered">
-        <div class="column is-half has-text-centered">
-            <!-- Adding a button for the user to click to open modal and run bar google search -->
-            <button class="button is-link" id="find-bar-button">Find me a bar or grocery
-                store!</button>
-        </div>
-    </div>
-
     <!-- Map Embed API - src setting dynamically from JavaScript -->
     <div class="columns is-centered" id="map-section" style="display: none;">
         <div class="column is-half has-text-centered">
@@ -118,21 +123,22 @@
             <!-- Any other Bulma elements you want -->
             <div class="columns">
                 <div class="column">
-                    <p class="has-text-centered" style="color: white;">Rather someone else make your
-                        drink? Pick up
-                        additional or missing ingredients?</p>
-                    <p class="has-text-centered" style="color: white;">Search for either a bar or
-                        grocery store.
+                    <p class="has-text-centered" style="color: white;">Need to pick up additional or missing
+                        ingredients?</p>
+                    <br>
+                    <p class="has-text-centered" style="color: white;">Rather someone else make your drink?</p>
+                    <br>
+                    <p class="has-text-centered" style="color: white;">Search for either a grocery store or bar.
                         &#40;select one&#41;</p>
                     <br>
                     <div class="control has-text-centered">
                         <label class="radio" style="color: white;">
                             <input type="radio" name="answer" value="bars">
-                            Bar
+                            Grocery Store
                         </label>
                         <label class="radio" style="color: white;">
                             <input type="radio" name="answer" value="grocery+store">
-                            Grocery Store
+                            Bar
                         </label>
                     </div>
                     <br>
