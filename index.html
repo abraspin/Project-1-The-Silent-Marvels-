@@ -4,70 +4,61 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Welcome to MIXR</title>
+    <title>Welcome to SHAKR</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.0/css/bulma.min.css">
     <link rel="stylesheet" href="style.css">
-
-
     <!-- add link to font awesome library -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
-
 </head>
 
-
 <body>
-
     <!-- HEADER BLOCK -->
     <section class="hero">
         <div class="hero-body">
             <div class="container has-text-centered">
-
-                <h1 class="title">
+                <h1 class="title is-1">
+                    <span class="icon mr-4">
+                        <i class="fa fa-glass"></i>
+                    </span>
                     <strong>Welcome to SHAKR</strong>
+                    <span class="icon ml-4">
+                        <i class="fa fa-glass"></i>
+                    </span>
                 </h1>
-
-
+                <br>
                 <h2 class="subtitle is-spaced">
                     <strong>You've had one hell of a week. You're thirsty. And you're low on mixers.</strong>
                 </h2>
-
                 <h3 class="subtitle is-spaced">
                     Tell us what you have, and we'll tell you what you can make!
                 </h3>
-
-                <h3 class="subtitle is-spaced">
+                <br>
+                <h6 class="subtitle is-6 mb-2 is-spaced">
                     Don't have what you need or would rather someone else make your drink?
-                </h3>
-
-                <!-- Adding a button for the user to click to open modal and run bar google search -->
+                </h6>
                 <div class="columns is-centered">
                     <div class="column is-half has-text-centered">
                         <button class="button is-link" id="find-bar-button">Find me a grocery store or bar!</button>
                     </div>
                 </div>
-
-                <!-- <a href="#">See who else is Shakin' »</a> -->
             </div>
         </div>
     </section>
 
     <!-- SEARCH FIELD BLOCK -->
     <section class="hero is-info">
-        <div class="hero-body">
+        <div class="hero-body pb-4">
             <div class="container">
                 <div class="card">
                     <div class="card-content">
                         <div class="content">
                             <form id="ingredient-search-field" class="control ">
                                 <div class="field has-addons">
-                                    <div class="container control has-icons-left has-icons-right">
+                                    <div class="container control has-icons-left ">
                                         <input id="ingredient-search" class="input is-medium" type="text"
                                             placeholder="Ingredient">
                                         <span class="icon is-medium is-left">
                                             <i class="fa fa-search"></i>
-                                        </span>
-                                        <span class="icon is-medium is-right">
-                                            <i class="fa fa-empire"></i>
                                         </span>
                                     </div>
                                     <div class="control">
@@ -81,25 +72,21 @@
                     </div>
                 </div>
             </div>
+            <p class="has-text-centered has-text-dark mt-3">(Cocktail Database furnished by
+                <a class='has-text-dark' href="https://thecocktaildb.com>TheCocktailDB">TheCocktailDB.com</a>)</p>
         </div>
     </section>
 
-
-    <div class="box cta">
+    <div class=" box cta">
         <div class="columns is-mobile is-centered">
             <div id="ingredient-list-element" class="field is-grouped is-grouped-multiline">
-
-
                 <!-- SEARCHED INGREDIENTS WILL BE RENDERED HERE -->
-
-
             </div>
         </div>
     </div>
+
     <section class="container">
-
         <div id="cocktail-card-element" class="level-item" style="flex-wrap: wrap; align-items: stretch;">
-
             <!-- Cocktail recipe cards will go here -->
         </div>
     </section>
@@ -116,15 +103,17 @@
     <!-- Modal for input of either user address or zipcode -->
     <div class="modal">
         <div class="modal-background"></div>
-        <div class="modal-content">
+        <div class=" box modal-content has-background-dark">
             <!-- Any other Bulma elements you want -->
             <div class="columns">
                 <div class="column">
-                    <p class="has-text-centered" style="color: white;">Need to pick up additional or missing ingredients?</p>
+                    <p class="has-text-centered" style="color: white;">Need to pick up additional or missing
+                        ingredients?</p>
                     <br>
                     <p class="has-text-centered" style="color: white;">Rather someone else make your drink?</p>
                     <br>
-                    <p class="has-text-centered" style="color: white;">Search for either a grocery store or bar. &#40;select one&#41;</p>
+                    <p class="has-text-centered" style="color: white;">Search for either a grocery store or bar.
+                        &#40;select one&#41;</p>
                     <br>
                     <div class="control has-text-centered">
                         <label class="radio" style="color: white;">
@@ -223,8 +212,6 @@
         </div>
         <button class="modal-close is-large" aria-label="close"></button>
     </div>
-
-
 
     <!-- jQuery library -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
