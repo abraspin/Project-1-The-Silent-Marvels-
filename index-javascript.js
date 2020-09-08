@@ -52,7 +52,7 @@ function ingredientSearch(event) {
   getCocktailIDs(searchedIngredient);
   // add this string to the page, and to an array to keep trak
   $("#ingredient-list-element").append(
-    `<div  class="control"><span class="tag is-link is-large">${searchedIngredient}  <button class="delete is-large" aria-label="delete"></button> </span>     </div>`
+    `<div  class="control"><span class="tag is-link is-large">${searchedIngredient}   </span>     </div>`
   );
   searchedIngredientStrings.push(searchedIngredient);
 
