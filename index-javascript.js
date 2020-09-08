@@ -105,10 +105,12 @@ function getCocktailIDs(ingredientToSearch) {
 
       // sort cocktail array
       var sortedCocktailObjectArray = sortCocktailObjectArray("potentialCocktailsObjectArray");
+      console.log(sortedCocktailObjectArray);
 
       $("#cocktail-card-element").empty();
       for (var i = 0; i < 10; i++) {
         // get recipes  and render cocktail  cards
+        console.log(i, sortedCocktailObjectArray[i].cocktailID);
         getCocktailRecipesFromID(sortedCocktailObjectArray[i].cocktailID);
       }
     });
@@ -179,7 +181,7 @@ function getCocktailRecipesFromID(cocktailID) {
     }
     // build cocktail recipe card element
     var newCocktailCardEl = $(`
-    <div style='width: 300px' class="column is-narrow">
+    <div style='width: 300px' class="column">
     <article class="message is-link">
         <div class="message-header">
             <p>${cocktailName}</p>
