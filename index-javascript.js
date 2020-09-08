@@ -259,7 +259,9 @@ function getCocktailRecipesFromID(cocktailID) {
             <div class="board-item">
                 <div class="board-item-content"><span>${cocktailGlass}</span></div>
             </div>
+            <br>
             <div id="ingredients-${cocktailName}"> ${ingredienthtml}</div>
+            <br>
             <div class="board-item">
                 <div class="board-item-content"><span>${cocktailInstr}</span></div>
             </div>
