@@ -47,13 +47,13 @@ function ingredientSearch(event) {
   $("#ingredient-search").val("");
 }
 
-// This function takes an ingredient string and queries the docktailDB for an array of cocktail IDs.
+// This function takes an ingredient string and queries the cocktailDB for an array of cocktail IDs.
 // Then it checks those IDs against the existing array of cocktail objects in local storage (if it exists)
 // For each ID returned by the query: If it finds the ID in the existing array, it increments that cocktail's internal counter
 // If it doesn't find an ID in the existing array, it makes a new cocktail object and pushes it on.
 function getCocktailIDs(ingredientToSearch) {
   // build the query url - Single ingredient search endpoint
-  queryURL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientToSearch}`;
+  queryURL = `https://www.thecocktaildb.com/api/json/v2/9973533/filter.php?i=${ingredientToSearch}`;
   // // Performing AJAX GET request
   $.ajax({
     url: queryURL,
@@ -130,7 +130,7 @@ function cocktailIDArrayToObjectArray(cocktailIDArray, cocktailObjectArray) {
 // Index 0: cocktail name, 1: thumbnail URL, 2: ingredients with measurements array, 3: cocktail glass, 4: instructions
 //Index 0, 3, 4 are strings. Index 1 is a URL. Index 2 is an array of strings.
 function getCocktailRecipesFromID(cocktailID) {
-  var queryURL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailID}`;
+  var queryURL = `https://www.thecocktaildb.com/api/json/v2/9973533/lookup.php?i=${cocktailID}`;
   $.ajax({ url: queryURL, method: "GET" }).then(function (response) {
     //this contains all the cocktail details
     var drinkDetails = response.drinks[0];
@@ -215,7 +215,7 @@ function getCocktailRecipesFromID(cocktailID) {
 function removeIngredient(ingredientString, ingredientArray) {
   // assuming this is inside of a click-event and is getting passed the ingredient string
   // Single ingredient search //
-  queryURL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientString}`;
+  queryURL = `https://www.thecocktaildb.com/api/json/v2/9973533/filter.php?i=${ingredientString}`;
   // // Performing AJAX GET request
   $.ajax({
     url: queryURL,
