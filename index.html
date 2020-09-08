@@ -103,112 +103,116 @@
     <!-- Modal for input of either user address or zipcode -->
     <div class="modal">
         <div class="modal-background"></div>
-        <div class=" box modal-content has-background-dark">
-            <!-- Any other Bulma elements you want -->
-            <div class="columns">
-                <div class="column">
-                    <p class="has-text-centered" style="color: white;">Need to pick up additional or missing
-                        ingredients?</p>
-                    <br>
-                    <p class="has-text-centered" style="color: white;">Rather someone else make your drink?</p>
-                    <br>
-                    <p class="has-text-centered" style="color: white;">Search for either a grocery store or bar.
-                        &#40;select one&#41;</p>
-                    <br>
-                    <div class="control has-text-centered">
-                        <label class="radio" style="color: white;">
-                            <input type="radio" name="answer" value="bars">
-                            Grocery Store
-                        </label>
-                        <label class="radio" style="color: white;">
-                            <input type="radio" name="answer" value="grocery+store">
-                            Bar
-                        </label>
-                    </div>
-                    <br>
-                    <p class="has-text-centered" style="color: white;">Please enter in either a
-                        zipcode or address.</p>
-                    <br>
-                    <input class="input" id="zip-only" type="number" placeholder="ZIP">
-                    <br>
-                    <br>
-                    <hr>
-                    <br>
-                    <input class="input" id="address" type="text" placeholder="Address">
+        <div class=" box modal-content" style="background-color: lightslategray;">
 
-                </div>
-            </div>
-            <div class="columns">
-                <div class="column">
-                    <input class="input" id="city" type="text" placeholder="City">
-                </div>
-                <div class="column">
-                    <!-- <input class="input" id="state" type="text" placeholder="State"> -->
-                    <div class="select" id="state">
-                        <select>
-                            <option>Select State</option>
-                            <option>AL</option>
-                            <option>AK</option>
-                            <option>AZ</option>
-                            <option>AR</option>
-                            <option>CA</option>
-                            <option>CO</option>
-                            <option>CT</option>
-                            <option>DE</option>
-                            <option>FL</option>
-                            <option>GA</option>
-                            <option>HI</option>
-                            <option>ID</option>
-                            <option>IL</option>
-                            <option>IN</option>
-                            <option>IA</option>
-                            <option>KS</option>
-                            <option>KY</option>
-                            <option>LA</option>
-                            <option>ME</option>
-                            <option>MD</option>
-                            <option>MA</option>
-                            <option>MI</option>
-                            <option>MN</option>
-                            <option>MS</option>
-                            <option>MO</option>
-                            <option>MT</option>
-                            <option>NE</option>
-                            <option>NV</option>
-                            <option>NH</option>
-                            <option>NJ</option>
-                            <option>NM</option>
-                            <option>NY</option>
-                            <option>NC</option>
-                            <option>ND</option>
-                            <option>OH</option>
-                            <option>OK</option>
-                            <option>OR</option>
-                            <option>PA</option>
-                            <option>RI</option>
-                            <option>SC</option>
-                            <option>SD</option>
-                            <option>TN</option>
-                            <option>TX</option>
-                            <option>UT</option>
-                            <option>VT</option>
-                            <option>VA</option>
-                            <option>WA</option>
-                            <option>WV</option>
-                            <option>WI</option>
-                            <option>WY</option>
-                        </select>
+            <!-- TRYING TO ADD "ENTER" KEY FUNCTIONALITY -->
+            <form id="ingredient-search-field" class="control ">
+
+                <div class="columns">
+                    <div class="column">
+                        <p class="has-text-centered" style="color: black;">Need to pick up additional or missing
+                            ingredients?</p>
+
+                        <p class="has-text-centered" style="color: black;">Rather someone else make your drink?</p>
+                        <br>
+                        <p class="has-text-centered" style="color: black;">Search for either a grocery store or bar
+                            &#40;select one&#41;</p>
+                        <br>
+                        <div class="control has-text-centered is-size-4" style="color: black;">
+                            <label class="radio">
+                                <input type="radio" name="answer" value="grocery+store">
+                                Grocery Store
+                            </label>
+                            <label class=" radio">
+                                <input type="radio" name="answer" value="bars" checked>
+                                Bar
+                            </label>
+                        </div>
+                        <br>
+                        <p class="has-text-centered" style="color: black;">Please enter in either a
+                            zipcode or address.</p>
+                        <br>
+
+                        <input class="input" id="zip-only" type="number" placeholder="ZIP">
+
+                        <hr style="border-style:double">
+                        <input class="input" id="address" type="text" placeholder="Address">
+
                     </div>
                 </div>
-                <div class="column">
-                    <input class="input" id="zip" type="number" placeholder="ZIP">
+                <div class="columns">
+                    <div class="column">
+                        <input class="input" id="city" type="text" placeholder="City">
+                    </div>
+                    <div class="column">
+                        <!-- <input class="input" id="state" type="text" placeholder="State"> -->
+                        <div class="select" id="state">
+                            <select>
+                                <option>Select State</option>
+                                <option>AL</option>
+                                <option>AK</option>
+                                <option>AZ</option>
+                                <option>AR</option>
+                                <option>CA</option>
+                                <option>CO</option>
+                                <option>CT</option>
+                                <option>DE</option>
+                                <option>FL</option>
+                                <option>GA</option>
+                                <option>HI</option>
+                                <option>ID</option>
+                                <option>IL</option>
+                                <option>IN</option>
+                                <option>IA</option>
+                                <option>KS</option>
+                                <option>KY</option>
+                                <option>LA</option>
+                                <option>ME</option>
+                                <option>MD</option>
+                                <option>MA</option>
+                                <option>MI</option>
+                                <option>MN</option>
+                                <option>MS</option>
+                                <option>MO</option>
+                                <option>MT</option>
+                                <option>NE</option>
+                                <option>NV</option>
+                                <option>NH</option>
+                                <option>NJ</option>
+                                <option>NM</option>
+                                <option>NY</option>
+                                <option>NC</option>
+                                <option>ND</option>
+                                <option>OH</option>
+                                <option>OK</option>
+                                <option>OR</option>
+                                <option>PA</option>
+                                <option>RI</option>
+                                <option>SC</option>
+                                <option>SD</option>
+                                <option>TN</option>
+                                <option>TX</option>
+                                <option>UT</option>
+                                <option>VT</option>
+                                <option>VA</option>
+                                <option>WA</option>
+                                <option>WV</option>
+                                <option>WI</option>
+                                <option>WY</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <input class="input" id="zip" type="number" placeholder="ZIP">
+                    </div>
                 </div>
-            </div>
-            <div class="columns">
-                <div class="column">
-                    <button class="button" id="submit-button">Submit</button>
+                <div class="columns">
+                    <button style="margin:0 auto; width:50%" class="button my-3 is-link"
+                        id="submit-button">Submit</button>
                 </div>
-            </div>
+
+            </form>
+
         </div>
         <button class="modal-close is-large" aria-label="close"></button>
     </div>
