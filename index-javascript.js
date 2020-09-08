@@ -28,7 +28,6 @@ $("#search-button").on("click", function (event) {
 // It is found in both the search submit event, and also the click search submit
 function ingredientSearch(event) {
   event.preventDefault();
-  console.log("hi");
   // grab searched ingredient string from search field
   var searchedIngredient = $("#ingredient-search").val();
   //  use homemade capitalization function
@@ -90,14 +89,12 @@ function getCocktailIDs(ingredientToSearch) {
             potentialID = potentialCocktailsObjectArray[j].cocktailID;
 
             if (thisID === potentialID) {
-              // console.log("id found!");
               potentialCocktailsObjectArray[j].numTimesSearched++;
               IDFound = true;
               break;
             }
           }
           if (!IDFound) {
-            // console.log("No ID Found");
             var cocktail = { cocktailID: thisID, numTimesSearched: 1 };
             potentialCocktailsObjectArray.push(cocktail);
           }
@@ -108,6 +105,7 @@ function getCocktailIDs(ingredientToSearch) {
 
       // sort cocktail array
       var sortedCocktailObjectArray = sortCocktailObjectArray("potentialCocktailsObjectArray");
+
       $("#cocktail-card-element").empty();
       for (var i = 0; i < 10; i++) {
         // get recipes  and render cocktail  cards
@@ -131,9 +129,7 @@ function cocktailIDArrayToObjectArray(cocktailIDArray, cocktailObjectArray) {
 //Index 0, 3, 4 are strings. Index 1 is a URL. Index 2 is an array of strings.
 function getCocktailRecipesFromID(cocktailID) {
   var queryURL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailID}`;
-  // console.log("getCocktailRecipesFromID -> queryURL", queryURL);
   $.ajax({ url: queryURL, method: "GET" }).then(function (response) {
-    console.log(response);
     //this contains all the cocktail details
     var drinkDetails = response.drinks[0];
     //GET cocktail name
@@ -225,13 +221,10 @@ function removeIngredient(ingredientString, ingredientArray) {
   })
     // After the data comes back from the API
     .then(function (response) {
-      // console.log("getCocktailIDs -> response", response);
       // This array will hold the ID's of all the cocktails that contain this ingredient
       var thisIngredientCocktailsIDArray = [];
-
       // This array holds the COCKTAIL OBJECTS for all cocktails matching user-inputted ingredients so far
       var potentialCocktailsObjectArray = JSON.parse(localStorage.getItem("potentialCocktailsObjectArray")) || [];
-      // // console.log(ingredientArray)
       // We are expecting a large array of cocktails, each of which contains the searched ingredient as one of its ingredients
       var returnedDrinksArray = response.drinks;
       // loop through this array
@@ -246,15 +239,11 @@ function removeIngredient(ingredientString, ingredientArray) {
       // If one is found, decrement its numFound counter. (IT should find all of them!!)
       for (var i = 0; i < thisIngredientCocktailsIDArray.length; i++) {
         thisID = thisIngredientCocktailsIDArray[i];
-        // // console.log("getCocktailIDs -> thisID", thisID)
-        // // console.log("getCocktailIDs -> potentialCocktailsObjectArray", potentialCocktailsObjectArray)
         // var IDFound = false;
         for (var j = 0; j < potentialCocktailsObjectArray.length; j++) {
           potentialID = potentialCocktailsObjectArray[j].cocktailID;
           if (thisID === potentialID) {
-            // console.log("id found!");
             potentialCocktailsObjectArray[j].numTimesSearched--;
-            // IDFound = true
             //this break is so it will not iterate the rest of the array after it finds the ID it wants, which
             //should only appear once
             break;
@@ -262,7 +251,7 @@ function removeIngredient(ingredientString, ingredientArray) {
         }
       }
       //AT THE END we change the local storage array to now exclude this ingredient
-      localStorage.setItem("potentialCocktailsObjectArray", JSON.stringify(potentialCocktailsObjectArray));
+      // localStorage.setItem("potentialCocktailsObjectArray", JSON.stringify(potentialCocktailsObjectArray));
     });
 }
 
@@ -320,29 +309,21 @@ var apiKey = "AIzaSyBXaAKr4axxaUBPZXJD-cKQF9qtHVrzXe0";
 $("#submit-button").on("click", function () {
   event.preventDefault();
   var searchFor = $('input[name="answer"]:checked').val();
-  console.log("Search for: " + searchFor);
   var zipOnly = $("#zip-only").val();
   if (zipOnly) {
-    console.log("ZIP Only: " + zipOnly);
     // Build the query URL
     // Search parameters start after the q= and use either + or %20 to escape spaces
     var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${searchFor}+near+${zipOnly}`;
-    console.log("QueryURL: " + queryURL);
   } else {
     var address = $("#address").val().trim();
     address = address.replace(/ /g, "+");
-    console.log("Address: " + address);
     var city = $("#city").val().trim();
     city = city.replace(/ /g, "+");
-    console.log("City: " + city);
     var state = $("#state option:selected").val();
-    console.log("State: " + state);
     var zip = $("#zip").val().trim();
-    console.log("Zip: " + zip);
     // Build the query URL
     // Search parameters start after the q= and use either + or %20 to escape spaces
     var queryURL = `https://www.google.com/maps/embed/v1/search?key=${apiKey}&q=${searchFor}+near+${address},${city},${state}+${zip}`;
-    console.log("QueryURL: " + queryURL);
   }
   $(".modal").removeClass("is-active");
   var embedMap = $("#embed-map");
@@ -350,4 +331,7 @@ $("#submit-button").on("click", function () {
 
   // Display map on page
   $("#map-section").attr("style", "");
+
+  //scroll to the maps element on the page'
+  $("html, body").animate({ scrollTop: $("#map-section").offset().top }, "fast");
 });
