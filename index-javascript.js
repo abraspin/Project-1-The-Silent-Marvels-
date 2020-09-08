@@ -186,7 +186,7 @@ function getCocktailRecipesFromID(cocktailID) {
         </div>
         <div class="message-body">
             <div class="board-item">
-                <div class="board-item-content"><a href="${cocktailThumbRef}"><img src="${cocktailThumbRef}" alt="cocktail-thumb" width="100"
+                <div class="board-item-content"><a href="${cocktailThumbRef}" target="_blank"><img src="${cocktailThumbRef}" alt="cocktail-thumb" width="100"
                         height="150"></a> </div>
             </div>
             <div class="board-item">
