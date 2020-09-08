@@ -12,39 +12,68 @@ $(document).ready(function () {
 //this will hold all previously searched ingredients
 var searchedIngredientStrings = [];
 
-$(".delete").on("click", function (event) {
-  // console.log(event.currentTarget.classList[1]);
-  removeIngredient(event.currentTarget.classList[1], localStorage.getItem("potentialCocktailsObjectArray"));
-});
-
 ///////////////////////////// EVENT LISTENERS /////////////////////////////
 
 /////////////////////////////////FOR ADDING NEW INGREDIENTS////////////////////
 // when the ingredient is submitted with "Enter key"
 $("#ingredient-search-field").on("submit", function (event) {
-  ingredientSearch(event);
+  ingredientSearch(event, $("#ingredient-search").val());
+  //////////////////////////////FOR DELETING SEARCHED INGREDIENTS////////////////////////////////////////
+  //create the event listener...in the event listener???!?!?!?!
+  $(".delete").on("click", function (event) {
+    // TODO: just make a clear all button! ACTUALLY DUH JUST RELOAD THE PAGE
+    //Tust take the array of ingredients, remove this one, then empty everything or reload the poage and then just re run ajax on the eneitre aray! bonus it's easy to checxk if it will be empty.
+    var ingredToDelete = this.parentElement.parentElement.innerText;
+    clickRemoveIngredient(event, ingredToDelete);
+  });
 });
 
 //When the ingredient is submitted with the "Click search button"
 $("#search-button").on("click", function (event) {
-  ingredientSearch(event);
+  ingredientSearch(event, $("#ingredient-search").val());
 });
 
-//////////////////////////////FOR DELETING SEARCHED INGREDIENTS////////////////////////////////////////
-$("button").on("click", function (event) {
-  event.preventDefault();
-  console.log("delete!");
-});
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 ///////////FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS//FUNCTIONS///////
 ////////////////////////////////////////////////////////////////////////////////////////////////////////
 
+// this is everything we want to happen when a user clicks to remove an ingredient
+function clickRemoveIngredient(event, ingredToDelete) {
+  event.preventDefault();
+  console.log("delete!");
+  removeIngredientFromObjectArray(ingredToDelete);
+
+  // FIXME: not null safe I guess if somehow the ingredient isn't in the array, which, how?
+  // delete 1 element at index whose value matches the ingredient to delete from our ingredient string array
+
+  console.log("searchedIngredientStrings", searchedIngredientStrings);
+  searchedIngredientStrings.splice(searchedIngredientStrings.indexOf(ingredToDelete), 1);
+  console.log("searchedIngredientStrings", searchedIngredientStrings);
+
+  // remove all searched ingredient elements from page
+  $("#ingredient-list-element").empty();
+
+  // remove all rendered cocktail card elements from page
+  $("#cocktail-card-element").empty();
+  // re-render all the ingredients now left in the array
+  for (var i = 0; i < searchedIngredientStrings.length; i++) {
+    $("#ingredient-list-element").append(
+      `<div class="control"><span class="tag is-link is-large">${searchedIngredientStrings[i]}  <button class="delete is-large" aria-label="delete"></button> </span> </div>`
+    );
+  }
+
+  for (var i = 0; i < searchedIngredientStrings.length; i++) {
+    // re-render the cocktail cards from updated cocktail object array
+    ingredientSearch(event, searchedIngredientStrings[i]);
+  }
+}
+
 //////////////////////This function runs the ajax call functions, renders the page, and updates ingredient lists.
-// It is found in both the search submit event, and also the click search submit
-function ingredientSearch(event) {
+//************ */ It is found in both the search submit event, and also the click search submit*******************
+function ingredientSearch(event, searchedIngredient) {
   event.preventDefault();
   // grab searched ingredient string from search field
-  var searchedIngredient = $("#ingredient-search").val();
+  // var searchedIngredient = $("#ingredient-search").val();
   //  use homemade capitalization function
   searchedIngredient = capitalize(searchedIngredient);
 
@@ -54,9 +83,10 @@ function ingredientSearch(event) {
   }
   //  run cocktail API call and HTML render
   getCocktailIDs(searchedIngredient);
+
   // add this string to the page, and to an array to keep trak
   $("#ingredient-list-element").append(
-    `<div  class="control"><span class="tag is-link is-large">${searchedIngredient}  <button class="delete is-large" aria-label="delete"></button> </span>     </div>`
+    `<div class="control"><span class="tag is-link is-large">${searchedIngredient}  <button class="delete is-large" aria-label="delete"></button> </span> </div>`
   );
   searchedIngredientStrings.push(searchedIngredient);
 
@@ -65,7 +95,7 @@ function ingredientSearch(event) {
 }
 
 ////////////////////////this function returns potentialCocktailsObjectArray
-// This function takes an ingredient string and queries the docktailDB for an array of cocktail IDs.
+// This function takes an ingredient string and queries the cocktailDB for an array of cocktail IDs.
 // Then it checks those IDs against the existing array of cocktail objects in local storage (if it exists)
 // For each ID returned by the query: If it finds the ID in the existing array, it increments that cocktail's internal counter
 // If it doesn't find an ID in the existing array, it makes a new cocktail object and pushes it on.
@@ -141,7 +171,7 @@ function getCocktailIDs(ingredientToSearch) {
         }
       }
       //now we have an array containing the ID's of all the cocktails containing this ingredient
-      // console.log(thisIngredientCocktailsIDArray);
+      // // console.log(thisIngredientCocktailsIDArray);
       // console.log(potentialCocktailsObjectArray);
       // return potentialCocktailsObjectArray;
 
@@ -151,7 +181,7 @@ function getCocktailIDs(ingredientToSearch) {
 
       ////////////////////////////////////RENDER THE PAGE///////////////////////////TODO: make this a function duh
       var sortedCocktailObjectArray = sortCocktailObjectArray("potentialCocktailsObjectArray");
-      console.log("getCocktailIDs -> sortedCocktailObjectArray", sortedCocktailObjectArray);
+      // console.log("getCocktailIDs -> sortedCocktailObjectArray", sortedCocktailObjectArray);
 
       $("#cocktail-card-element").empty();
       for (var i = 0; i < 10; i++) {
@@ -178,14 +208,14 @@ function getCocktailRecipesFromID(cocktailID) {
   var queryURL = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${cocktailID}`;
   // console.log("getCocktailRecipesFromID -> queryURL", queryURL);
   $.ajax({ url: queryURL, method: "GET" }).then(function (response) {
-    console.log(response);
+    // console.log(response);
 
     //this contains all the cocktail details
     var drinkDetails = response.drinks[0];
 
     //GET cocktail name
     var cocktailName = drinkDetails.strDrink;
-    // console.log(cocktailName);
+    // // console.log(cocktailName);
 
     //GET cocktail thumbnail Reference
     var cocktailThumbnailRef = drinkDetails.strDrinkThumb;
@@ -208,13 +238,13 @@ function getCocktailRecipesFromID(cocktailID) {
       //check to make sure ingredient exists (else it's set to null)
       // if (drinkDetails[key] != null) {
       ingredientMeasurementArray.push(drinkDetails[key]);
-      // // console.log(drinkDetails[key]);
+      // // // console.log(drinkDetails[key]);
       // }
     }
 
     //BUILD array with Ingredient <-> measurement pairing in each element
     var ingredientsWithMeasuresArray = concatenateIngredientMeasures(ingredientListArray, ingredientMeasurementArray);
-    console.log(ingredientsWithMeasuresArray);
+    // console.log(ingredientsWithMeasuresArray);
 
     // GET Glass type
     var cocktailGlassType = drinkDetails.strGlass;
@@ -279,7 +309,7 @@ function getCocktailRecipesFromID(cocktailID) {
 
 ///////////////FUNCTION - REMOVE INGREDIENT - This will re-run ajax call and remove it from "found recipes" or whatever
 // ingredientstring: the ingredient to remove   ,   ingredientArray: array of pre-searched ingredients
-function removeIngredient(ingredientString, ingredientArray) {
+function removeIngredientFromObjectArray(ingredientString) {
   //assuming this is inside of a click-event and is getting passed the ingredient string
 
   //TODO: This could be made into a function bc I've now used nearly the same logic twice
@@ -337,6 +367,8 @@ function removeIngredient(ingredientString, ingredientArray) {
       }
       //AT THE END we change the local storage array to now exclude this ingredient
       localStorage.setItem("potentialCocktailsObjectArray", JSON.stringify(potentialCocktailsObjectArray));
+
+      // return potentialCocktailsObjectArray;
     });
 }
 
