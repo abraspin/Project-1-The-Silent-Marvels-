@@ -103,37 +103,35 @@
     <!-- Modal for input of either user address or zipcode -->
     <div class="modal">
         <div class="modal-background"></div>
-        <div class=" box modal-content has-background-dark">
+        <div class=" box modal-content" style="background-color: lightslategray;">
             <!-- Any other Bulma elements you want -->
             <div class="columns">
                 <div class="column">
-                    <p class="has-text-centered" style="color: white;">Need to pick up additional or missing
+                    <p class="has-text-centered" style="color: black;">Need to pick up additional or missing
                         ingredients?</p>
+
+                    <p class="has-text-centered" style="color: black;">Rather someone else make your drink?</p>
                     <br>
-                    <p class="has-text-centered" style="color: white;">Rather someone else make your drink?</p>
-                    <br>
-                    <p class="has-text-centered" style="color: white;">Search for either a grocery store or bar.
+                    <p class="has-text-centered" style="color: black;">Search for either a grocery store or bar
                         &#40;select one&#41;</p>
                     <br>
-                    <div class="control has-text-centered">
-                        <label class="radio" style="color: white;">
+                    <div class="control has-text-centered is-size-4" style="color: black;">
+                        <label class=" radio">
                             <input type="radio" name="answer" value="bars">
                             Grocery Store
                         </label>
-                        <label class="radio" style="color: white;">
+                        <label class="radio">
                             <input type="radio" name="answer" value="grocery+store">
                             Bar
                         </label>
                     </div>
                     <br>
-                    <p class="has-text-centered" style="color: white;">Please enter in either a
+                    <p class="has-text-centered" style="color: black;">Please enter in either a
                         zipcode or address.</p>
                     <br>
                     <input class="input" id="zip-only" type="number" placeholder="ZIP">
-                    <br>
-                    <br>
-                    <hr>
-                    <br>
+
+                    <hr style="border-style:double">
                     <input class="input" id="address" type="text" placeholder="Address">
 
                 </div>
