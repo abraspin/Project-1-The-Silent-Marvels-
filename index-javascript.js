@@ -38,7 +38,6 @@ function ingredientSearch(event) {
   }
   //  run cocktail API call and HTML render, returns false if API returns 404
   getCocktailIDs(searchedIngredient);
-
   $("#ingredient-search").val("");
 }
 
@@ -58,7 +57,6 @@ function getCocktailIDs(ingredientToSearch) {
     // After the data comes back from the API
     .then(function (response) {
       //Error check - if the ingredient returns 404 from API, return early and render alert on page
-      console.log(response);
       if (!response) {
         badIngredientSearch();
         return;
@@ -303,12 +301,10 @@ function badIngredientSearch() {
   var badSearchAlert = $(
     `<h4 class = "box has-text-dark has-background-danger has-text-centered subtitle is-6">Oops! The database didn't find any recipes containing that ingredient! <br> Please try another</h4>`
   );
-
   //append it
   $("#bad-search-alert-el").html(badSearchAlert);
-
   setTimeout(function () {
-    // fade out and remove
+    // wait and then fade out and remove
     $("#bad-search-alert-el h4").fadeOut();
   }, 3000);
 }
