@@ -61,6 +61,9 @@ function getCocktailIDs(ingredientToSearch) {
   })
     // After the data comes back from the API
     .then(function (response) {
+      console.log(response);
+      /////////////TODO: add if statment here for empty string from response FIXME:
+
       // This array will hold the ID's of all the cocktails that contain this ingredient
       var thisIngredientCocktailsIDArray = [];
       // This array holds the COCKTAIL OBJECTS for all cocktails matching user-inputted ingredients so far
@@ -285,6 +288,22 @@ const capitalize = (str) => {
     return "";
   }
 };
+
+//FUNCTION If a searched ingredient returns a 404 error from theCocktailDB API, this function briefly alerts user
+// renders a message on the page, then removes it.
+function badIngredientSearch() {
+  var badSearchAlert = $(
+    `<h4 class = "box has-text-dark has-background-danger has-text-centered subtitle is-6">Oops! The database didn't find any recipes containing that ingredient! <br> Please try another</h4>`
+  );
+
+  //append it
+  $("#bad-search-alert-el").html(badSearchAlert);
+
+  setTimeout(function () {
+    // fade out and remove
+    $("#bad-search-alert-el").fadeOut();
+  }, 3000);
+}
 
 // Toggle modal active by using click listener on find-bar-button
 $("#find-bar-button").on("click", function () {
