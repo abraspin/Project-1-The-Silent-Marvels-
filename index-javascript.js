@@ -36,21 +36,16 @@ function ingredientSearch(event) {
   if (searchedIngredientStrings.indexOf(searchedIngredient) >= 0) {
     return;
   }
-  //  run cocktail API call and HTML render
+  //  run cocktail API call and HTML render, returns false if API returns 404
   getCocktailIDs(searchedIngredient);
-  // add this string to the page, and to an array to keep trak
-  $("#ingredient-list-element").append(
-    `<div  class="control"><span class="tag is-link is-large">${searchedIngredient}   </span>     </div>`
-  );
-  searchedIngredientStrings.push(searchedIngredient);
-  // Clear the #ingredient-search field
   $("#ingredient-search").val("");
 }
 
-// This function takes an ingredient string and queries the docktailDB for an array of cocktail IDs.
+// This function takes an ingredient string and queries the cocktailDB for an array of cocktail IDs.
 // Then it checks those IDs against the existing array of cocktail objects in local storage (if it exists)
 // For each ID returned by the query: If it finds the ID in the existing array, it increments that cocktail's internal counter
 // If it doesn't find an ID in the existing array, it makes a new cocktail object and pushes it on.
+// RETURNS: if the searched string returns 404 from API, this function returns false. Else returns true.
 function getCocktailIDs(ingredientToSearch) {
   // build the query url - Single ingredient search endpoint
   queryURL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${ingredientToSearch}`;
@@ -61,6 +56,19 @@ function getCocktailIDs(ingredientToSearch) {
   })
     // After the data comes back from the API
     .then(function (response) {
+      console.log("getCocktailIDs -> response", response);
+      //Error check - if the ingredient is blank string or returns 404 from API, return early and render alert on page
+      if (!response || !ingredientToSearch.trim()) {
+        badIngredientSearch();
+        return;
+      }
+      // add this ingredient to the page, and to an array to keep track
+      $("#ingredient-list-element").append(
+        `<div  class="control"><span class="tag is-link is-large">${ingredientToSearch}   </span>     </div>`
+      );
+      searchedIngredientStrings.push(ingredientToSearch);
+      // Clear the #ingredient-search field
+
       // This array will hold the ID's of all the cocktails that contain this ingredient
       var thisIngredientCocktailsIDArray = [];
       // This array holds the COCKTAIL OBJECTS for all cocktails matching user-inputted ingredients so far
@@ -111,6 +119,8 @@ function getCocktailIDs(ingredientToSearch) {
         // get recipes  and render cocktail  cards
         getCocktailRecipesFromID(sortedCocktailObjectArray[i].cocktailID);
       }
+      // if API call was successful
+      return true;
     });
 }
 // FUNCTION - add an array of cocktail ID's to an array of cocktail objects
@@ -285,6 +295,20 @@ const capitalize = (str) => {
     return "";
   }
 };
+
+//FUNCTION If a searched ingredient returns a 404 error from theCocktailDB API, this function briefly alerts user
+// renders a message on the page, then removes it.
+function badIngredientSearch() {
+  var badSearchAlert = $(
+    `<h4 class = "box has-text-dark has-background-danger has-text-centered subtitle is-6">Oops! The database didn't find any recipes containing that ingredient! <br> Please try another</h4>`
+  );
+  //append it
+  $("#bad-search-alert-el").html(badSearchAlert);
+  setTimeout(function () {
+    // wait and then fade out and remove
+    $("#bad-search-alert-el h4").fadeOut();
+  }, 3000);
+}
 
 // Toggle modal active by using click listener on find-bar-button
 $("#find-bar-button").on("click", function () {
