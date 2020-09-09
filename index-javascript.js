@@ -56,8 +56,9 @@ function getCocktailIDs(ingredientToSearch) {
   })
     // After the data comes back from the API
     .then(function (response) {
-      //Error check - if the ingredient returns 404 from API, return early and render alert on page
-      if (!response) {
+      console.log("getCocktailIDs -> response", response);
+      //Error check - if the ingredient is blank string or returns 404 from API, return early and render alert on page
+      if (!response || !ingredientToSearch.trim()) {
         badIngredientSearch();
         return;
       }
