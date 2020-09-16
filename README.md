@@ -62,6 +62,7 @@ Abraham Spindel
 * Bulma.CSS Library  
 * Font Awesome by Dave Gandy - https://fontawesome.io  
 * theCocktailDB - https://thecocktailDB.com  
+* Google Maps - https://cloud.google.com/maps-platform/
 ---
 
 ## Badges
