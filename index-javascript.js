@@ -39,6 +39,7 @@ function ingredientSearch(event) {
   //  run cocktail API call and HTML render, returns false if API returns 404
   getCocktailIDs(searchedIngredient);
   $("#ingredient-search").val("");
+  $("#reload-page-button").attr("style", "display: inline;");
 }
 
 // This function takes an ingredient string and queries the cocktailDB for an array of cocktail IDs.
@@ -357,4 +358,10 @@ $("#submit-button").on("click", function () {
 
   //scroll to the maps element on the page'
   $("html, body").animate({ scrollTop: $("#map-section").offset().top }, "fast");
+});
+
+// Click event on reload-page-button to reload page
+$("#reload-page-button").on("click", function() {
+  event.preventDefault();
+  location.reload();
 });
